@@ -141,5 +141,53 @@ if(albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl){
 
 const userRatingEl = document.getElementById("user-rating");
 const userReviewEl = document.getElementById("user-review");
+const saveReviewBtn = document.getElementById("save-review");
+const saveMsg = document.getElementById("save-msg");
+
+
+if(saveReviewBtn && userRatingEl && userReviewEl){
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+
+    const saved = JSON.parse(localStorage.getItem(`user-review-${id}`) || "null");
+
+    if(saved){
+
+        userRatingEl.value = saved.userRating;
+        userReviewEl.value = saved.userReview;
+
+
+    }
+
+
+    saveReviewBtn.addEventListener("click", () =>{
+
+        const userRating = userRatingEl.value;
+        const userReview = userReviewEl.value;
+
+        if(userRatingEl.value < 1 || userRatingEl.value > 10 || !userRatingEl.value){
+
+        saveMsg.textContent = "Invalid Rating (Must Be Between 1-10)";
+
+        return;
+
+    }
+
+
+     //save the object
+
+    localStorage.setItem(`user-review-${id}`, JSON.stringify({userRating, userReview}));
+
+    saveMsg.textContent = "Review Was Successfully Saved!";
+
+
+
+    });
+
+    
+
+}
 
 
