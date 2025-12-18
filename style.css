@@ -1,0 +1,61 @@
+body{
+
+    background-color: whitesmoke;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 2rem;
+
+
+
+
+
+}
+
+
+.rating{
+
+display: block;
+clear: both;
+padding-bottom: 20px;
+
+
+}
+
+.album-space img {
+  width: 150px;
+  height: auto;
+  
+  border-radius:5px;
+  object-fit: cover;
+}
+
+h1{
+
+    font-size: 20px;
+    color: black;
+ 
+
+}
+
+h1:visited{
+
+
+    text-decoration-color: purple;
+}
+
+.feedback{
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;   /* space between “lines” */
+  max-width: 600px;
+}
+
+
+.album-page img{
+
+  width: 250px;
+  height: auto;
+  border-radius:5px;
+  object-fit: cover;
+
+}

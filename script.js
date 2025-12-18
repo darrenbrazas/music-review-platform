@@ -43,6 +43,17 @@ const albums = [
         description: "Best French House Record of All Time"
 
 
+    },
+    {
+
+        id: 5,
+        title: "To Pimp A Butterfly",
+        artist: "Kendrick Lamar",
+        albumCover: "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
+        releaseDate: 2015,
+        description: "Best Hip-hop record of all time"
+
+
     }
 
 
@@ -66,11 +77,21 @@ if(albumContainer){
     card.href = `album.html?id=${album.id}`;
 
     //For actual album cover now
+
+   const saved = JSON.parse(
+  localStorage.getItem(`user-review-${album.id}`) || "null"
+);
+
+    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+
+
     card.innerHTML = `
     
         <img src = "${album.albumCover}" alt = "${album.title} album cover">
         <h1>${album.title}</h1>
         <p>${album.artist}</p>
+        <span class="rating">${ratingText}</span>
+        
     `;
 
 
@@ -167,9 +188,9 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
         const userRating = userRatingEl.value;
         const userReview = userReviewEl.value;
 
-        if(userRatingEl.value < 1 || userRatingEl.value > 10 || !userRatingEl.value){
+        if(userRatingEl.value < 1 || userRatingEl.value > 100 || !userRatingEl.value){
 
-        saveMsg.textContent = "Invalid Rating (Must Be Between 1-10)";
+        saveMsg.textContent = "Invalid Rating (Must Be Between 1-100)";
 
         return;
 
