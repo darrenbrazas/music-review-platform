@@ -7,8 +7,8 @@ const albums = [
         artist: "Black Country New Road",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/d/d7/Ants_from_Up_There_-_Black_Country%2C_New_Road.jpg",
         releaseDate: 2022,
-        description: "Critially Acclaimed as one of the greatest albums of the 2020s"
-
+        description: "Critially Acclaimed as one of the greatest albums of the 2020s",
+        genre: "rock"
 
     },
     {
@@ -18,7 +18,8 @@ const albums = [
         artist: "Magdalena Bay",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/4/4b/Magdalena_Bay_-_Imaginal_Disk.png",
         releaseDate: 2024,
-        description: "The creators favorite pop record of all time!"
+        description: "The creators favorite pop record of all time!",
+        genre: "pop"
 
 
 
@@ -30,8 +31,8 @@ const albums = [
         artist: "Geese",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Geese_-_Getting_Killed.jpg/250px-Geese_-_Getting_Killed.jpg",
         releaseDate: 2025,
-        description: "The creators favorite album of 2025"
-
+        description: "The creators favorite album of 2025",
+        genre: "rock"
     },
     {
 
@@ -40,8 +41,8 @@ const albums = [
         artist: "Daft Punk",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/2/27/Daft_Punk_-_Discovery.png",
         releaseDate: 2001,
-        description: "Best French House Record of All Time"
-
+        description: "Best French House Record of All Time",
+        genre: "electronic"
 
     },
     {
@@ -51,8 +52,8 @@ const albums = [
         artist: "Kendrick Lamar",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
         releaseDate: 2015,
-        description: "Best Hip-hop record of all time"
-
+        description: "Best Hip-hop record of all time",
+        genre: "hip-hop"
 
     }
 
@@ -157,7 +158,10 @@ if(albumContainer){
 
 }
 
-displayAlbums();
+if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
+  displayAlbums();
+}
+
     
 
 
@@ -268,6 +272,9 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 //****************************************************** */
 
 //genre page 
+
+
+
 
 
 
