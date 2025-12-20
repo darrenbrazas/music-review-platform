@@ -64,6 +64,49 @@ const albums = [
 ];
 
 
+//****************************************************** */
+
+//menu buttons
+
+const genreBtn = document.getElementById("genre-menu-btn");
+if (genreBtn) {
+  genreBtn.addEventListener("click", () => {
+    window.location.href = "genre.html";
+  });
+}
+
+const topRatedBtn = document.getElementById("toprated-menu-btn");
+if (topRatedBtn) {
+  topRatedBtn.addEventListener("click", () => {
+    window.location.href = "toprated.html";
+  });
+}
+
+const popularBtn = document.getElementById("popular-menu-btn");
+if (popularBtn) {
+  popularBtn.addEventListener("click", () => {
+    window.location.href = "popular.html";
+  });
+}
+
+const discussionBtn = document.getElementById("discussion-menu-btn");
+if (discussionBtn) {
+  discussionBtn.addEventListener("click", () => {
+    window.location.href = "discussion.html";
+  });
+}
+
+
+//****************************************************** */
+
+
+//showing each album featured
+
+
+
+const displayAlbums = () => {
+
+
 const albumContainer = document.getElementById("albums");
 
 if(albumContainer){
@@ -109,6 +152,16 @@ if(albumContainer){
 
 }
 
+
+
+
+}
+
+displayAlbums();
+    
+
+
+//****************************************************** */
 
 //individual album pages 
 
@@ -156,7 +209,7 @@ if(albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl){
 
 }
 
-
+//****************************************************** */
 
 //create the rating mechanism now
 
@@ -210,5 +263,17 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
     
 
 }
+
+
+//****************************************************** */
+
+//genre page 
+
+
+
+
+
+//****************************************************** */
+
 
 
