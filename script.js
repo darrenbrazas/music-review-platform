@@ -282,5 +282,57 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
 //****************************************************** */
 
+//top rated page
+
+//****************************************************** */
+// top rated page
+
+const displayTopRatedAlbums = () => {
+  const albumContainer = document.getElementById("albums");
+
+  if (!albumContainer) return;
+
+  albumContainer.innerHTML = "";
+
+  // attach user ratings to albums
+  const albumsWithRatings = albums.map((album) => {
+    const saved = JSON.parse(
+      localStorage.getItem(`user-review-${album.id}`) || "null"
+    );
+
+    return {
+      ...album,
+      rating: saved ? Number(saved.userRating) : 0
+    };
+  });
+
+  // sort: highest -> lowest
+  albumsWithRatings
+    .filter(album => album.rating > 0) // only rated albums
+    .sort((a, b) => b.rating - a.rating)
+    .forEach((album) => {
+
+      const card = document.createElement("a");
+      card.className = "album-space";
+      card.href = `album.html?id=${album.id}`;
+
+      card.innerHTML = `
+        <img src="${album.albumCover}" alt="${album.title} album cover">
+        <h1>${album.title}</h1>
+        <p>${album.artist}</p>
+        <span class="rating">★ ${album.rating}/100</span>
+      `;
+
+      albumContainer.appendChild(card);
+    });
+};
+
+// only run on toprated.html
+if (window.location.pathname.endsWith("toprated.html")) {
+  displayTopRatedAlbums();
+}
 
 
+
+
+/********************************************************* */
