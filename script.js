@@ -338,9 +338,6 @@ if (window.location.pathname.endsWith("toprated.html")) {
 
 /********************************************************* */
 
-
-//Discussion
-
 //Discussion
 
 function escapeHTML(str) {
@@ -359,7 +356,7 @@ const discussionTitleEl = document.getElementById("discussion-title");
 const discussionSubjectEl = document.getElementById("discussion-subject");
 const discussionBodyEl = document.getElementById("discussion-body");
 
-// ✅ guard so it doesn't crash on other pages
+
 if (createDiscussionBtnEl && form) {
   createDiscussionBtnEl.addEventListener("click", () => {
     form.style.display = "block";
@@ -368,20 +365,19 @@ if (createDiscussionBtnEl && form) {
 
 if (discussionTitleEl && discussionSubjectEl && discussionBodyEl) {
 
-  // ✅ FIX: plural name + consistent use
+
   const savedDiscussions = JSON.parse(localStorage.getItem("discussionsContainer") || "[]");
 
   const submitBtnEl = document.getElementById("submit-discussion-btn");
 
   if (submitBtnEl) {
     submitBtnEl.addEventListener("click", (e) => {
-      e.preventDefault(); // ✅ prevents refresh if inside form
+      e.preventDefault(); 
 
       const discussionTitle = discussionTitleEl.value.trim();
       const discussionSubject = discussionSubjectEl.value.trim();
       const discussionBody = discussionBodyEl.value.trim();
 
-      // ✅ FIX: check all 3 values (you only checked 2, and checked .value wrong)
       if (!discussionTitle || !discussionSubject || !discussionBody) {
         alert("Please fill in Title, Subject, and Body.");
         return;
@@ -407,7 +403,7 @@ if (discussionTitleEl && discussionSubjectEl && discussionBodyEl) {
 
 const displayDiscussions = () => {
 
-  // ✅ FIX: your HTML id is "discussions"
+
   const discussionEl = document.getElementById("discussions");
   if (!discussionEl) return;
 
@@ -431,12 +427,12 @@ const displayDiscussions = () => {
       <small>${new Date(d.createdAt).toLocaleString()}</small>
     `;
 
-    // ✅ FIX: append to discussionEl (container didn't exist)
+    
     discussionEl.appendChild(card);
   });
 }
 
-// ✅ call it on load (your filename check is okay if the file is truly discussion.html)
+
 if (window.location.pathname.endsWith("discussion.html")) {
   displayDiscussions();
 }
