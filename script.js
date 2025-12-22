@@ -341,31 +341,102 @@ if (window.location.pathname.endsWith("toprated.html")) {
 
 //Discussion
 
-const createDiscussions = () => {
+//Discussion
 
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[ch]));
+}
 
+const form = document.getElementById("create-discussion-form");
+const createDiscussionBtnEl = document.getElementById("discussion-create-btn");
+const discussionTitleEl = document.getElementById("discussion-title");
+const discussionSubjectEl = document.getElementById("discussion-subject");
+const discussionBodyEl = document.getElementById("discussion-body");
 
+// ✅ guard so it doesn't crash on other pages
+if (createDiscussionBtnEl && form) {
+  createDiscussionBtnEl.addEventListener("click", () => {
+    form.style.display = "block";
+  });
+}
 
-  
+if (discussionTitleEl && discussionSubjectEl && discussionBodyEl) {
+
+  // ✅ FIX: plural name + consistent use
+  const savedDiscussions = JSON.parse(localStorage.getItem("discussionsContainer") || "[]");
+
+  const submitBtnEl = document.getElementById("submit-discussion-btn");
+
+  if (submitBtnEl) {
+    submitBtnEl.addEventListener("click", (e) => {
+      e.preventDefault(); // ✅ prevents refresh if inside form
+
+      const discussionTitle = discussionTitleEl.value.trim();
+      const discussionSubject = discussionSubjectEl.value.trim();
+      const discussionBody = discussionBodyEl.value.trim();
+
+      // ✅ FIX: check all 3 values (you only checked 2, and checked .value wrong)
+      if (!discussionTitle || !discussionSubject || !discussionBody) {
+        alert("Please fill in Title, Subject, and Body.");
+        return;
+      }
+
+      savedDiscussions.push({
+        title: discussionTitle,
+        subject: discussionSubject,
+        body: discussionBody,
+        createdAt: Date.now()
+      });
+
+      localStorage.setItem("discussionsContainer", JSON.stringify(savedDiscussions));
+
+      form.style.display = "none";
+
+      displayDiscussions();
+    });
+  }
 }
 
 //somehow tell the html to display all the existing discussions and also implement a create discussion
 
 const displayDiscussions = () => {
 
-const discussionEl = document.getElementById("discussions");
+  // ✅ FIX: your HTML id is "discussions"
+  const discussionEl = document.getElementById("discussions");
+  if (!discussionEl) return;
 
-if (!discussionEl) return;
+  const discussions = JSON.parse(localStorage.getItem("discussionsContainer") || "[]");
 
+  discussionEl.innerHTML = "";
 
+  if (discussions.length === 0) {
+    discussionEl.innerHTML = `<p>There are no discussions yet, please create one!</p>`;
+    return;
+  }
 
+  discussions.slice().reverse().forEach((d) => {
+    const card = document.createElement("div");
+    card.className = "discussion-card";
 
+    card.innerHTML = `
+      <h3>${escapeHTML(d.title)}</h3>
+      <p><strong>${escapeHTML(d.subject)}</strong></p>
+      <p>${escapeHTML(d.body)}</p>
+      <small>${new Date(d.createdAt).toLocaleString()}</small>
+    `;
 
-
-
+    // ✅ FIX: append to discussionEl (container didn't exist)
+    discussionEl.appendChild(card);
+  });
 }
 
-
-if(window.location.pathname.endsWith("discussion.html")){
+// ✅ call it on load (your filename check is okay if the file is truly discussion.html)
+if (window.location.pathname.endsWith("discussion.html")) {
   displayDiscussions();
 }

@@ -45,7 +45,27 @@
 
             <button id = "discussion-create-btn">Create Discussion</button>
 
-            <div id = "discussions"class = "discussions-space"></div>
+
+            <div id = "create-discussion-form"  style="display: none;">
+
+                <label for ="discussion-title">Title:</label>
+                <input id = "discussion-title" type ="text" placeholder="Discussion title" minlength="5" maxlength="50" required>
+                <label for ="discussion-subject">Subject:</label>
+                <input id = "discussion-subject" type = "text" placeholder="Discussion subject" minlength="5" maxlength="75" required>
+
+                <label for = "discussion-body">Body:</label>
+                <textarea id = "discussion-body"  placeholder ="Write your post..." minlength="20" maxlength="1000" required></textarea>
+
+                <p id="char-count">Character Count 0 / 1000</p>
+
+
+                <button id = "submit-discussion-btn">Post</button>
+
+
+            </div>
+
+            <div id="discussions" class="discussions-space"></div>
+
 
        
 
