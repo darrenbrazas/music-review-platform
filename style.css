@@ -75,3 +75,22 @@ padding-bottom: 1rem;
   
 
 }
+
+#create-discussion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Make labels align cleanly */
+#create-discussion-form label {
+  font-weight: 500;
+}
+
+/* Make all inputs & textarea same width */
+#create-discussion-form input,
+#create-discussion-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
