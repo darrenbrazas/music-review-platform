@@ -269,9 +269,7 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 }
 
 
-//****************************************************** */
-
-//genre page 
+//***************//genre page */
 
 
 
@@ -280,15 +278,13 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
 
 
-//****************************************************** */
 
-//top rated page
+//***********// top rated page******** */
 
-//****************************************************** */
-// top rated page
 
 const displayTopRatedAlbums = () => {
   const albumContainer = document.getElementById("albums");
+  
   if (!albumContainer) return;
 
   albumContainer.innerHTML = "";
@@ -345,12 +341,31 @@ if (window.location.pathname.endsWith("toprated.html")) {
 
 //Discussion
 
-const displayDiscussions = () => {
-
-
+const createDiscussions = () => {
 
 
 
 
   
+}
+
+//somehow tell the html to display all the existing discussions and also implement a create discussion
+
+const displayDiscussions = () => {
+
+const discussionEl = document.getElementById("discussions");
+
+if (!discussionEl) return;
+
+
+
+
+
+
+
+}
+
+
+if(window.location.pathname.endsWith("discussion.html")){
+  displayDiscussions();
 }
