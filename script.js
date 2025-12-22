@@ -289,42 +289,46 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
 const displayTopRatedAlbums = () => {
   const albumContainer = document.getElementById("albums");
-
   if (!albumContainer) return;
 
   albumContainer.innerHTML = "";
 
-  // attach user ratings to albums
-  const albumsWithRatings = albums.map((album) => {
-    const saved = JSON.parse(
-      localStorage.getItem(`user-review-${album.id}`) || "null"
-    );
+  // 1) Build a new list that includes each album's saved review + numeric rating
+  const ratedAlbums = albums
+    .map((album) => {
+      const saved = JSON.parse(
+        localStorage.getItem(`user-review-${album.id}`) || "null"
+      );
 
-    return {
-      ...album,
-      rating: saved ? Number(saved.userRating) : 0
-    };
+      const ratingNumber = saved ? Number(saved.userRating) : 0;
+
+      return { album, saved, ratingNumber };
+    })
+    // 2) Only keep albums that have a real rating
+    .filter((item) => item.ratingNumber > 0)
+    // 3) Sort highest -> lowest
+    .sort((a, b) => b.ratingNumber - a.ratingNumber);
+
+  // 4) Render cards (same as your displayAlbums style)
+  ratedAlbums.forEach((item) => {
+    const album = item.album;
+    const saved = item.saved;
+
+    const card = document.createElement("a");
+    card.className = "album-space";
+    card.href = `album.html?id=${album.id}`;
+
+    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+
+    card.innerHTML = `
+      <img src="${album.albumCover}" alt="${album.title} album cover">
+      <h1>${album.title}</h1>
+      <p>${album.artist}</p>
+      <span class="rating">${ratingText}</span>
+    `;
+
+    albumContainer.appendChild(card);
   });
-
-  // sort: highest -> lowest
-  albumsWithRatings
-    .filter(album => album.rating > 0) // only rated albums
-    .sort((a, b) => b.rating - a.rating)
-    .forEach((album) => {
-
-      const card = document.createElement("a");
-      card.className = "album-space";
-      card.href = `album.html?id=${album.id}`;
-
-      card.innerHTML = `
-        <img src="${album.albumCover}" alt="${album.title} album cover">
-        <h1>${album.title}</h1>
-        <p>${album.artist}</p>
-        <span class="rating">★ ${album.rating}/100</span>
-      `;
-
-      albumContainer.appendChild(card);
-    });
 };
 
 // only run on toprated.html
@@ -335,4 +339,18 @@ if (window.location.pathname.endsWith("toprated.html")) {
 
 
 
+
 /********************************************************* */
+
+
+//Discussion
+
+const displayDiscussions = () => {
+
+
+
+
+
+
+  
+}
