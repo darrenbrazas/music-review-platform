@@ -4,6 +4,8 @@ const albums = [
     {
         id: 1,
         title: "Ants From Up There",
+
+        //get rid of artist name
         artist: "Black Country New Road",
         albumCover: "https://upload.wikimedia.org/wikipedia/en/d/d7/Ants_from_Up_There_-_Black_Country%2C_New_Road.jpg",
         releaseDate: 2022,
@@ -55,12 +57,54 @@ const albums = [
         description: "Best Hip-hop record of all time",
         genre: "hip-hop"
 
+    },
+    {
+
+        id: 6,
+        title: "Abbey Road",
+        artist: "The Beatles",
+        albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Beatles_-_Abbey_Road.jpg/960px-Beatles_-_Abbey_Road.jpg",
+        releaseDate: 1969,
+        description: "Legendary and influential album",
+        genre: "pop"
+
+
     }
 
 
 
 
 
+
+];
+
+
+//artists array
+
+
+const artists = [
+
+    {
+
+      id: 1,
+      name: "Black Country New Road",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Black_Country%2C_New_Road_at_O2_Shepherd%27s_Bush_Empire.png",
+      bio: "British Post-Rock Band",
+      genre: ["Rock", "Pop"]
+      
+
+    },
+
+    {
+
+      id: 2,
+      name: "Magdalena Bay",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      bio: "Upcoming Pop Duo",
+      genre: ["Pop" , "Neo-Psychedelia"]
+      
+
+    },
 
 ];
 
@@ -83,10 +127,17 @@ if(homeBtn) {
 
 //menu buttons
 
+const artistBtn = document.getElementById("artist-menu-btn");
+if(artistBtn) {
+  artistBtn.addEventListener("click", () => {
+    window.location.href = "artistSearch.html";
+  });
+}
+
 const genreBtn = document.getElementById("genre-menu-btn");
 if (genreBtn) {
   genreBtn.addEventListener("click", () => {
-    window.location.href = "genre.html";
+    window.location.href = "genreSearch.html";
   });
 }
 
@@ -372,7 +423,7 @@ const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
 
 
-if(window.location.pathname.endsWith("genre.html")){
+if(window.location.pathname.endsWith("genreSearch.html")){
   
   
   displayGenreAlbums();

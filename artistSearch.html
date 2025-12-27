@@ -1,23 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
     <meta charset="utf-8" />
 
-    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0" />
 
     <title>ReviewMu</title>
 
+    <link rel = "stylesheet" href = "style.css">
 
-    <link rel = "stylesheet" href = "style.css" />
 
 </head>
+
+
 
 
 <body>
 
     <main>
+
         <h1 class = "home-btn">ReviewMu</h1>
 
         <div class = "top-bar">
@@ -35,21 +39,24 @@
 
 
         </div>
-        
-        <!--For showing the featured albums--> 
-        <div class = "featured-albums">
-
-            <h2>Featured Albums</h2>
+        <h2>Artist Search</h2>
 
 
-            <div id = "albums" class = "album-space"></div>
+        <div class = "artist-search">
+
+            <input type = "text" id = "artist-search-text" placeholder= "Search By Artist" />
+            <button id = "artist-search-btn">Search</button>
+
 
         </div>
 
+
+        <div id = "artist"></div>
+
         
 
-    </main>
 
+    </main>
 
 
 
@@ -59,20 +66,4 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
-
