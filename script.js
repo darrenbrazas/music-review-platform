@@ -168,60 +168,38 @@ if (discussionBtn) {
 
 //showing each album featured
 
-
-
 const displayAlbums = () => {
+  const albumContainer = document.getElementById("albums");
+  if (!albumContainer) return;
 
-
-const albumContainer = document.getElementById("albums");
-
-if(albumContainer){
-
-    albums.forEach( (album) => {
-
-
-    //when linked is pressed
-    const card = document.createElement("a");
+  albums.forEach((album) => {
+    // wrapper card (NOT a link)
+    const card = document.createElement("div");
     card.className = "album-space";
-    card.href = `album.html?id=${album.id}`;
 
-    //For actual album cover now
-
-   const saved = JSON.parse(
-  localStorage.getItem(`user-review-${album.id}`) || "null"
-);
+    const saved = JSON.parse(
+      localStorage.getItem(`user-review-${album.id}`) || "null"
+    );
 
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-
+    // ONLY this link is clickable (image + title)
     card.innerHTML = `
-    
-        <img src = "${album.albumCover}" alt = "${album.title} album cover">
+      <a class="album-link" href="album.html?id=${album.id}">
+        <img src="${album.albumCover}" alt="${album.title} album cover">
         <h1>${album.title}</h1>
-        <p>${album.artist}</p>
-        <span class="rating">${ratingText}</span>
-        
+      </a>
+
+      <p class="artist-name">${album.artist}</p>
+      <span class="rating">${ratingText}</span>
     `;
 
-
-
     albumContainer.appendChild(card);
+  });
+};
 
 
 
-    
-    })
-
-
-
-
-
-}
-
-
-
-
-}
 
 if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
   displayAlbums();
@@ -277,6 +255,53 @@ if(albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl){
 
 
 }
+
+//****************************************************** */
+
+//individual artist pages
+
+
+const artistImageEl = document.getElementById("artist-img");
+const artistNameEl = document.getElementById("artist-name");
+const artistGenreEl = document.getElementById("artist-genre");
+const artistBioEl = document.getElementById("artist-bio");
+
+if(artistImageEl && artistNameEl && artistGenreEl && artistBioEl){
+
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
+
+
+  const artist = artists.find((ar) => ar.id === id);
+
+  if(!artist){
+
+
+    artistNameEl.textContent = "Artist Was Not Found";
+    artistImageEl.src = "";
+    artistImageEl.alt = "";
+    artistGenreEl.textContent = "";
+    artistBioEl.textContent = "";
+  }else{
+
+    artistNameEl.textContent = artist.name;
+    artistImageEl.src = artist.artistImage;
+    artistImageEl.alt = `${artist.name} image`;
+    artistGenreEl.textContent = artist.genre;
+    artistBioEl.textContent = artist.bio;
+
+
+
+  }
+
+
+
+
+
+
+
+}
+
 
 //****************************************************** */
 
@@ -337,89 +362,56 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 //***************//genre page */
 
 const displayGenreAlbums = () => {
+  const albumContainer = document.getElementById("albums");
+  const genreSearchTextEl = document.getElementById("genre-search-bar");
+  const genreSearchBtn = document.getElementById("genre-search-btn");
 
-const albumContainer = document.getElementById("albums");
-const genreSearchTextEl = document.getElementById("genre-search-bar");
-const genreSearchBtn = document.getElementById("genre-search-btn");
+  if (!albumContainer || !genreSearchTextEl || !genreSearchBtn) return;
 
+  genreSearchBtn.addEventListener("click", () => {
+    const genre = genreSearchTextEl.value.trim().toLowerCase();
+    albumContainer.innerHTML = "";
 
+    if (!genre) {
+      albumContainer.innerHTML = `<p>Please Enter a genre.</p>`;
+      return;
+    }
 
-if(!albumContainer || !genreSearchTextEl || !genreSearchBtn){
+    const genreFilteredAlbums = albums.filter(
+      (album) => album.genre.toLowerCase() === genre
+    );
 
+    if (genreFilteredAlbums.length === 0) {
+      albumContainer.innerHTML = `<p>No albums were found</p>`;
+      return;
+    }
 
+    genreFilteredAlbums.forEach((album) => {
+      const saved = JSON.parse(
+        localStorage.getItem(`user-review-${album.id}`) || "null"
+      );
 
-  return;
+      const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-}
-
-genreSearchBtn.addEventListener("click", () => {
-
-const genre = genreSearchTextEl.value.trim().toLowerCase();
-
-albumContainer.innerHTML = "";
-
-if(!genre){
-
-  albumContainer.innerHTML = `<p>Please Enter a genre.</p>`
-
-  return;
-
-}
-
-const genreFilteredAlbums = albums.filter(album =>
-  album.genre.toLowerCase() === genre
-);
-
-
-
-if(genreFilteredAlbums.length === 0){
-
-
-albumContainer.innerHTML = `<p>No albums were found</p>`;
-
-return;
-
-}
-
-
-genreFilteredAlbums.forEach( (album) => {
-
-
-const saved = JSON.parse(localStorage.getItem(`user-review-${album.id}`) || "null");
-
-
-
-
-const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
-
-      const card = document.createElement("a");
+  
+      const card = document.createElement("div");
       card.className = "album-space";
-      card.href = `album.html?id=${album.id}`;
 
       card.innerHTML = `
-        <img src="${album.albumCover}" alt="${album.title} album cover">
-        <h1>${album.title}</h1>
-        <p>${album.artist}</p>
+        <a class="album-link" href="album.html?id=${album.id}">
+          <img src="${album.albumCover}" alt="${album.title} album cover">
+          <h1>${album.title}</h1>
+        </a>
+
+        <p class="artist-name">${album.artist}</p>
         <span class="rating">${ratingText}</span>
       `;
 
       albumContainer.appendChild(card);
+    });
+  });
+};
 
-});
-
-
-
-
-
-});
-
-
-
-
-
-
-
-}
 
 
 
@@ -438,12 +430,10 @@ if(window.location.pathname.endsWith("genreSearch.html")){
 
 const displayTopRatedAlbums = () => {
   const albumContainer = document.getElementById("albums");
-  
   if (!albumContainer) return;
 
   albumContainer.innerHTML = "";
 
-  // 1) Build a new list that includes each album's saved review + numeric rating
   const ratedAlbums = albums
     .map((album) => {
       const saved = JSON.parse(
@@ -454,32 +444,37 @@ const displayTopRatedAlbums = () => {
 
       return { album, saved, ratingNumber };
     })
-    // 2) Only keep albums that have a real rating
     .filter((item) => item.ratingNumber > 0)
-    // 3) Sort highest -> lowest
     .sort((a, b) => b.ratingNumber - a.ratingNumber);
 
-  // 4) Render cards (same as your displayAlbums style)
   ratedAlbums.forEach((item) => {
     const album = item.album;
     const saved = item.saved;
 
-    const card = document.createElement("a");
-    card.className = "album-space";
-    card.href = `album.html?id=${album.id}`;
-
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
+    // ✅ card wrapper is NOT a link
+    const card = document.createElement("div");
+    card.className = "album-space";
+
+    // ✅ only image + title are clickable
     card.innerHTML = `
-      <img src="${album.albumCover}" alt="${album.title} album cover">
-      <h1>${album.title}</h1>
-      <p>${album.artist}</p>
+      <a class="album-link" href="album.html?id=${album.id}">
+        <img src="${album.albumCover}" alt="${album.title} album cover">
+        <h1>${album.title}</h1>
+      </a>
+
+      <p class="artist-name">${album.artist}</p>
       <span class="rating">${ratingText}</span>
     `;
 
     albumContainer.appendChild(card);
   });
 };
+
+
+
+
 
 // only run on toprated.html
 if (window.location.pathname.endsWith("toprated.html")) {
