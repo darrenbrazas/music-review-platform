@@ -106,6 +106,50 @@ const artists = [
 
     },
 
+    {
+
+      id: 3,
+      name: "Geese",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      bio: "Defying Indie Rock Band",
+      genre: ["Rock" , "Indie Rock"]
+      
+
+    },
+
+    {
+
+      id: 4,
+      name: "Daft Punk",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      bio: "Legendary French Electronic Duo",
+      genre: ["Electronic" , "French House"]
+      
+
+    },
+
+    {
+
+      id: 5,
+      name: "Kendrick Lamar",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      bio: "Upcoming Pop Duo",
+      genre: ["Hip-Hop" , "West Coast Hip-Hop"]
+      
+
+    },
+
+    {
+
+      id: 6,
+      name: "The Beatles",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      bio: "Upcoming Pop Duo",
+      genre: ["Pop" , "Rock"]
+      
+
+    },
+
 ];
 
 //home button
@@ -184,13 +228,18 @@ const displayAlbums = () => {
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
     // ONLY this link is clickable (image + title)
+
+    const artist = artists.find(a => a.name === album.artist);
+
+
     card.innerHTML = `
       <a class="album-link" href="album.html?id=${album.id}">
         <img src="${album.albumCover}" alt="${album.title} album cover">
         <h1>${album.title}</h1>
       </a>
-
-      <p class="artist-name">${album.artist}</p>
+    
+      <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
+      ${artist.name}</a></p>
       <span class="rating">${ratingText}</span>
     `;
 
@@ -287,7 +336,7 @@ if(artistImageEl && artistNameEl && artistGenreEl && artistBioEl){
     artistNameEl.textContent = artist.name;
     artistImageEl.src = artist.artistImage;
     artistImageEl.alt = `${artist.name} image`;
-    artistGenreEl.textContent = artist.genre;
+    artistGenreEl.textContent = artist.genre.join(", ");
     artistBioEl.textContent = artist.bio;
 
 
@@ -393,7 +442,7 @@ const displayGenreAlbums = () => {
 
       const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-  
+      const artist = artists.find(a => a.name === album.artist);
       const card = document.createElement("div");
       card.className = "album-space";
 
@@ -403,7 +452,8 @@ const displayGenreAlbums = () => {
           <h1>${album.title}</h1>
         </a>
 
-        <p class="artist-name">${album.artist}</p>
+        <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
+      ${artist.name}</a></p>
         <span class="rating">${ratingText}</span>
       `;
 
@@ -453,6 +503,8 @@ const displayTopRatedAlbums = () => {
 
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
+    const artist = artists.find(a => a.name === album.artist);
+
     // ✅ card wrapper is NOT a link
     const card = document.createElement("div");
     card.className = "album-space";
@@ -464,7 +516,8 @@ const displayTopRatedAlbums = () => {
         <h1>${album.title}</h1>
       </a>
 
-      <p class="artist-name">${album.artist}</p>
+      <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
+      ${artist.name}</a></p>
       <span class="rating">${ratingText}</span>
     `;
 

@@ -110,4 +110,21 @@ padding-bottom: 1rem;
   padding-bottom: 1rem;
   
 }
+.artist-page img{
+
+  width: 250px;
+  height: auto;
+  border-radius:5px;
+  object-fit: cover;
+  padding-top: 1rem;
+
+}
+
+.artist-feedback {
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;   /* space between “lines” */
+  max-width: 600px;
+}
 
