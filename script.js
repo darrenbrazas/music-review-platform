@@ -64,6 +64,20 @@ const albums = [
 
 ];
 
+//home button
+
+const homeBtn = document.querySelector(".home-btn");
+
+if(homeBtn) {
+
+  homeBtn.addEventListener("click", () => {
+
+
+    window.location.href = "index.html";
+  });
+
+}
+
 
 //****************************************************** */
 
@@ -271,10 +285,99 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
 //***************//genre page */
 
+const displayGenreAlbums = () => {
+
+const albumContainer = document.getElementById("albums");
+const genreSearchTextEl = document.getElementById("genre-search-bar");
+const genreSearchBtn = document.getElementById("genre-search-btn");
+
+
+
+if(!albumContainer || !genreSearchTextEl || !genreSearchBtn){
+
+
+
+  return;
+
+}
+
+genreSearchBtn.addEventListener("click", () => {
+
+const genre = genreSearchTextEl.value.trim().toLowerCase();
+
+albumContainer.innerHTML = "";
+
+if(!genre){
+
+  albumContainer.innerHTML = `<p>Please Enter a genre.</p>`
+
+  return;
+
+}
+
+const genreFilteredAlbums = albums.filter(album =>
+  album.genre.toLowerCase() === genre
+);
+
+
+
+if(genreFilteredAlbums.length === 0){
+
+
+albumContainer.innerHTML = `<p>No albums were found</p>`;
+
+return;
+
+}
+
+
+genreFilteredAlbums.forEach( (album) => {
+
+
+const saved = JSON.parse(localStorage.getItem(`user-review-${album.id}`) || "null");
 
 
 
 
+const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+
+      const card = document.createElement("a");
+      card.className = "album-space";
+      card.href = `album.html?id=${album.id}`;
+
+      card.innerHTML = `
+        <img src="${album.albumCover}" alt="${album.title} album cover">
+        <h1>${album.title}</h1>
+        <p>${album.artist}</p>
+        <span class="rating">${ratingText}</span>
+      `;
+
+      albumContainer.appendChild(card);
+
+});
+
+
+
+
+
+});
+
+
+
+
+
+
+
+}
+
+
+
+if(window.location.pathname.endsWith("genre.html")){
+  
+  
+  displayGenreAlbums();
+
+}
 
 
 

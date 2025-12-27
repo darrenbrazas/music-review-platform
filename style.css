@@ -82,15 +82,32 @@ padding-bottom: 1rem;
   gap: 10px;
 }
 
-/* Make labels align cleanly */
+
 #create-discussion-form label {
   font-weight: 500;
 }
 
-/* Make all inputs & textarea same width */
+
 #create-discussion-form input,
 #create-discussion-form textarea {
   width: 100%;
   box-sizing: border-box;
+}
+
+.home-btn {
+  cursor: pointer;
+  user-select: none;       /* prevents text highlighting */
+}
+
+.home-btn:hover {
+  opacity: 0.8;            /* subtle hover feedback */
+}
+
+
+.genre-search{
+
+
+  padding-bottom: 1rem;
+  
 }
 
