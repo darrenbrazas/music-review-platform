@@ -505,11 +505,11 @@ const displayTopRatedAlbums = () => {
 
     const artist = artists.find(a => a.name === album.artist);
 
-    // ✅ card wrapper is NOT a link
+    
     const card = document.createElement("div");
     card.className = "album-space";
 
-    // ✅ only image + title are clickable
+  
     card.innerHTML = `
       <a class="album-link" href="album.html?id=${album.id}">
         <img src="${album.albumCover}" alt="${album.title} album cover">
