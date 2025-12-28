@@ -354,7 +354,7 @@ if(artistImageEl && artistNameEl && artistGenreEl && artistBioEl){
 
 //****************************************************** */
 
-//create the rating mechanism now
+//create the album rating mechanism now
 
 const userRatingEl = document.getElementById("user-rating");
 const userReviewEl = document.getElementById("user-review");
@@ -406,6 +406,132 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
     
 
 }
+
+//****************************************************** */
+
+//create artist rating mechanism now
+
+const artistRatingEl = document.getElementById("artist-rating");
+const artistReviewEl = document.getElementById("artist-review");
+const saveArtistReviewBtn = document.getElementById("save-artist-review");
+const saveArtistReviewMsg = document.getElementById("save-artist-msg");
+
+
+if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const saved = JSON.parse(localStorage.getItem(`artist-review-${id}`) || "null");
+
+    if (saved) {
+
+      artistRatingEl.value = saved.artistRating;
+      artistReviewEl.value = saved.artistReview;
+
+    }
+
+
+    saveArtistReviewBtn.addEventListener("click", () => {
+
+      const artistRating = artistRatingEl.value;
+      const artistReview = artistReviewEl.value;
+
+      if(artistRatingEl.value < 1 || artistRatingEl.value > 100){
+
+        saveArtistReviewMsg.textContent = "Invalid Rating (Must Be Between 1-100)";
+
+        return;
+      }
+
+
+      localStorage.setItem(`artist-review-${id}`, JSON.stringify({artistRating, artistReview}));
+
+      saveArtistReviewMsg.textContent = "Review Was Successfully Saved!";
+    });
+
+
+}
+
+//****************************************************** */
+
+//displaying albums on artist page
+
+const displayArtistAlbums = () => {
+  const albumContainer = document.getElementById("artist-albums");
+  if (!albumContainer) return;
+
+  // get artist id from URL (artist.html?id=___)
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
+
+  albumContainer.innerHTML = "";
+
+  if (!id) {
+    albumContainer.innerHTML = `<p>Artist was not found.</p>`;
+    return;
+  }
+
+
+  const artist = artists.find((a) => a.id === id);
+
+  if (!artist) {
+    albumContainer.innerHTML = `<p>Artist was not found.</p>`;
+    return;
+  }
+
+
+  const artistFilteredAlbums = albums.filter(
+    (album) => album.artist === artist.name
+  );
+
+  if (artistFilteredAlbums.length === 0) {
+    albumContainer.innerHTML = `<p>No albums were found</p>`;
+    return;
+  }
+
+  artistFilteredAlbums.forEach((album) => {
+    const saved = JSON.parse(
+      localStorage.getItem(`user-review-${album.id}`) || "null"
+    );
+
+    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+
+    const card = document.createElement("div");
+    card.className = "album-space";
+
+    card.innerHTML = `
+      <h2>EP</h2>
+      <a class="album-link" href="album.html?id=${album.id}">
+        <img src="${album.albumCover}" alt="${album.title} album cover">
+        <h1>${album.title}</h1>
+      </a>
+
+      <p class="artist-name">
+        <a class="artist-link" href="artist.html?id=${artist.id}">
+          ${artist.name}
+        </a>
+      </p>
+
+      <span class="rating">${ratingText}</span>
+    `;
+
+    albumContainer.appendChild(card);
+  });
+};
+
+if(window.location.pathname.endsWith("artist.html")){
+  
+  
+  displayArtistAlbums();
+
+}
+
+
+
+//****************************************************** */
+
+
 
 
 //***************//genre page */
