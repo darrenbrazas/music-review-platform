@@ -1,82 +1,72 @@
 
 const albums = [
-
-    {
-        id: 1,
-        title: "Ants From Up There",
-
-        //get rid of artist name
-        artist: "Black Country New Road",
-        albumCover: "https://upload.wikimedia.org/wikipedia/en/d/d7/Ants_from_Up_There_-_Black_Country%2C_New_Road.jpg",
-        releaseDate: 2022,
-        description: "Critially Acclaimed as one of the greatest albums of the 2020s",
-        genre: "rock"
-
-    },
-    {
-
-        id: 2,
-        title: "Imaginal Disk",
-        artist: "Magdalena Bay",
-        albumCover: "https://upload.wikimedia.org/wikipedia/en/4/4b/Magdalena_Bay_-_Imaginal_Disk.png",
-        releaseDate: 2024,
-        description: "The creators favorite pop record of all time!",
-        genre: "pop"
-
-
-
-    },
-    {
-
-        id: 3,
-        title: "Getting Killed",
-        artist: "Geese",
-        albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Geese_-_Getting_Killed.jpg/250px-Geese_-_Getting_Killed.jpg",
-        releaseDate: 2025,
-        description: "The creators favorite album of 2025",
-        genre: "rock"
-    },
-    {
-
-        id: 4,
-        title: "Discovery",
-        artist: "Daft Punk",
-        albumCover: "https://upload.wikimedia.org/wikipedia/en/2/27/Daft_Punk_-_Discovery.png",
-        releaseDate: 2001,
-        description: "Best French House Record of All Time",
-        genre: "electronic"
-
-    },
-    {
-
-        id: 5,
-        title: "To Pimp A Butterfly",
-        artist: "Kendrick Lamar",
-        albumCover: "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
-        releaseDate: 2015,
-        description: "Best Hip-hop record of all time",
-        genre: "hip-hop"
-
-    },
-    {
-
-        id: 6,
-        title: "Abbey Road",
-        artist: "The Beatles",
-        albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Beatles_-_Abbey_Road.jpg/960px-Beatles_-_Abbey_Road.jpg",
-        releaseDate: 1969,
-        description: "Legendary and influential album",
-        genre: "pop"
-
-
-    }
-
-
-
-
+  {
+    id: 1,
+    title: "Ants From Up There",
+    artistId: 1,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/d/d7/Ants_from_Up_There_-_Black_Country%2C_New_Road.jpg",
+    releaseDate: 2022,
+    description: "Critially Acclaimed as one of the greatest albums of the 2020s",
+    genre: "rock"
+  },
+  {
+    id: 2,
+    title: "Imaginal Disk",
+    artistId: 2,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/4/4b/Magdalena_Bay_-_Imaginal_Disk.png",
+    releaseDate: 2024,
+    description: "The creators favorite pop record of all time!",
+    genre: "pop"
+  },
+  {
+    id: 3,
+    title: "Getting Killed",
+    artistId: 3,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Geese_-_Getting_Killed.jpg/250px-Geese_-_Getting_Killed.jpg",
+    releaseDate: 2025,
+    description: "The creators favorite album of 2025",
+    genre: "rock"
+  },
+  {
+    id: 4,
+    title: "Discovery",
+    artistId: 4,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/2/27/Daft_Punk_-_Discovery.png",
+    releaseDate: 2001,
+    description: "Best French House Record of All Time",
+    genre: "electronic"
+  },
+  {
+    id: 5,
+    title: "To Pimp A Butterfly",
+    artistId: 5,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
+    releaseDate: 2015,
+    description: "Best Hip-hop record of all time",
+    genre: "hip-hop"
+  },
+  {
+    id: 6,
+    title: "Abbey Road",
+    artistId: 6,
+    albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Beatles_-_Abbey_Road.jpg/960px-Beatles_-_Abbey_Road.jpg",
+    releaseDate: 1969,
+    description: "Legendary and influential album",
+    genre: "pop"
+  },
+  {
+    id: 7,
+    title: "DAMN.",
+    artistId: 5,
+    albumCover: "https://upload.wikimedia.org/wikipedia/en/5/51/Kendrick_Lamar_-_Damn.png",
+    releaseDate: 2017,
+    description: "One of Kendrick's Bests Conceptual Albums",
+    genre: "hip-hop"
+  }
 
 
 ];
+
 
 
 //artists array
@@ -110,7 +100,7 @@ const artists = [
 
       id: 3,
       name: "Geese",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Geese_%28Band%29_Philadelphia_August_2024.jpg/1280px-Geese_%28Band%29_Philadelphia_August_2024.jpg",
       bio: "Defying Indie Rock Band",
       genre: ["Rock" , "Indie Rock"]
       
@@ -121,7 +111,7 @@ const artists = [
 
       id: 4,
       name: "Daft Punk",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Daft_Punk_in_2013_2-_centered.jpg/1280px-Daft_Punk_in_2013_2-_centered.jpg",
       bio: "Legendary French Electronic Duo",
       genre: ["Electronic" , "French House"]
       
@@ -132,8 +122,8 @@ const artists = [
 
       id: 5,
       name: "Kendrick Lamar",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
-      bio: "Upcoming Pop Duo",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/KendrickSZASPurs230725-144_%28cropped%29.jpg/960px-KendrickSZASPurs230725-144_%28cropped%29.jpg",
+      bio: "Era Defining Rapper",
       genre: ["Hip-Hop" , "West Coast Hip-Hop"]
       
 
@@ -143,14 +133,22 @@ const artists = [
 
       id: 6,
       name: "The Beatles",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
-      bio: "Upcoming Pop Duo",
+      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/The_Beatles_1963_Dezo_Hoffman_Capitol_Records_press_photo_4-3_crop.jpg/1280px-The_Beatles_1963_Dezo_Hoffman_Capitol_Records_press_photo_4-3_crop.jpg",
+      bio: "Influential Band",
       genre: ["Pop" , "Rock"]
       
 
     },
 
+    
+
 ];
+
+const getArtistById = (artistId) => {
+  return artists.find(a => a.id === Number(artistId)) || null;
+};
+
+
 
 //home button
 
@@ -209,15 +207,11 @@ if (discussionBtn) {
 
 //****************************************************** */
 
-
-//showing each album featured
-
 const displayAlbums = () => {
   const albumContainer = document.getElementById("albums");
   if (!albumContainer) return;
 
   albums.forEach((album) => {
-    // wrapper card (NOT a link)
     const card = document.createElement("div");
     card.className = "album-space";
 
@@ -227,28 +221,28 @@ const displayAlbums = () => {
 
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-    // ONLY this link is clickable (image + title)
-
-    const artist = artists.find(a => a.name === album.artist);
-
+    const artist = getArtistById(album.artistId);
 
     card.innerHTML = `
       <a class="album-link" href="album.html?id=${album.id}">
         <img src="${album.albumCover}" alt="${album.title} album cover">
         <h1>${album.title}</h1>
       </a>
-    
-      <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
-      ${artist.name}</a></p>
+
+      <p class="artist-name">
+        ${
+          artist
+            ? `<a class="artist-link" href="artist.html?id=${artist.id}">${artist.name}</a>`
+            : `<span class="artist-link">Unknown Artist</span>`
+        }
+      </p>
+
       <span class="rating">${ratingText}</span>
     `;
 
     albumContainer.appendChild(card);
   });
 };
-
-
-
 
 if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
   displayAlbums();
@@ -261,95 +255,74 @@ if (window.location.pathname.endsWith("index.html") || window.location.pathname 
 
 //individual album pages 
 
+//individual album pages 
+
 const albumCoverEl = document.getElementById("album-cover");
 const albumTitleEl = document.getElementById("album-title");
 const albumArtistEl = document.getElementById("artist");
 const albumReleaseEl = document.getElementById("release-date");
 const albumDescriptionEl = document.getElementById("album-description");
 
-if(albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl){
+if (albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl) {
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
 
+  const album = albums.find((a) => a.id === id);
 
-    const params = new URLSearchParams(window.location.search);
-    const id = Number(params.get("id"));
+  if (!album) {
+    albumTitleEl.textContent = "Album Was Not Found";
+    albumArtistEl.textContent = "";
+    albumCoverEl.alt = "";
+    albumCoverEl.src = "";
+    albumReleaseEl.textContent = "";
+    albumDescriptionEl.textContent = "";
+  } else {
+    const artist = getArtistById(album.artistId);
 
-    
-
-
-    const album = albums.find((a) => a.id === id);
-
-
-    if(!album) {
-
-        albumTitleEl.textContent = "Album Was Not Found";
-        albumArtistEl.textContent = "";
-        albumCoverEl.alt = "";
-        albumCoverEl.src = "";
-        albumReleaseEl.textContent = "";
-        albumDescriptionEl.textContent = "";
-
-
-    }else{
-
-        albumTitleEl.textContent = album.title;
-        albumArtistEl.textContent = album.artist;
-        albumCoverEl.alt = `${album.title} album cover`;
-        albumCoverEl.src = album.albumCover;
-        albumReleaseEl.textContent = album.releaseDate;
-        albumDescriptionEl.textContent = album.description;
-
-
-    }  
-
-
-
+    albumTitleEl.textContent = album.title;
+    albumArtistEl.textContent = artist ? artist.name : "Unknown Artist";
+    albumCoverEl.alt = `${album.title} album cover`;
+    albumCoverEl.src = album.albumCover;
+    albumReleaseEl.textContent = album.releaseDate;
+    albumDescriptionEl.textContent = album.description;
+  }
 }
+
 
 //****************************************************** */
 
 //individual artist pages
 
 
+//individual artist pages
+
 const artistImageEl = document.getElementById("artist-img");
 const artistNameEl = document.getElementById("artist-name");
 const artistGenreEl = document.getElementById("artist-genre");
 const artistBioEl = document.getElementById("artist-bio");
 
-if(artistImageEl && artistNameEl && artistGenreEl && artistBioEl){
+if (artistImageEl && artistNameEl && artistGenreEl && artistBioEl) {
 
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
+  const artist = getArtistById(id);
 
-  const artist = artists.find((ar) => ar.id === id);
-
-  if(!artist){
-
-
+  if (!artist) {
     artistNameEl.textContent = "Artist Was Not Found";
     artistImageEl.src = "";
     artistImageEl.alt = "";
     artistGenreEl.textContent = "";
     artistBioEl.textContent = "";
-  }else{
-
+  } else {
     artistNameEl.textContent = artist.name;
     artistImageEl.src = artist.artistImage;
     artistImageEl.alt = `${artist.name} image`;
     artistGenreEl.textContent = artist.genre.join(", ");
     artistBioEl.textContent = artist.bio;
-
-
-
   }
-
-
-
-
-
-
-
 }
+
 
 
 //****************************************************** */
@@ -457,11 +430,12 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
 //displaying albums on artist page
 
+//displaying albums on artist page
+
 const displayArtistAlbums = () => {
   const albumContainer = document.getElementById("artist-albums");
   if (!albumContainer) return;
 
-  // get artist id from URL (artist.html?id=___)
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
@@ -472,17 +446,15 @@ const displayArtistAlbums = () => {
     return;
   }
 
-
-  const artist = artists.find((a) => a.id === id);
+  const artist = getArtistById(id);
 
   if (!artist) {
     albumContainer.innerHTML = `<p>Artist was not found.</p>`;
     return;
   }
 
-
   const artistFilteredAlbums = albums.filter(
-    (album) => album.artist === artist.name
+    (album) => album.artistId === artist.id
   );
 
   if (artistFilteredAlbums.length === 0) {
@@ -498,10 +470,12 @@ const displayArtistAlbums = () => {
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
     const card = document.createElement("div");
-    card.className = "album-space";
+    card.className = "artist-album-space";
+
+
 
     card.innerHTML = `
-      <h2>EP</h2>
+      
       <a class="album-link" href="album.html?id=${album.id}">
         <img src="${album.albumCover}" alt="${album.title} album cover">
         <h1>${album.title}</h1>
@@ -520,12 +494,10 @@ const displayArtistAlbums = () => {
   });
 };
 
-if(window.location.pathname.endsWith("artist.html")){
-  
-  
+if (window.location.pathname.endsWith("artist.html")) {
   displayArtistAlbums();
-
 }
+
 
 
 
@@ -568,7 +540,8 @@ const displayGenreAlbums = () => {
 
       const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-      const artist = artists.find(a => a.name === album.artist);
+      const artist = getArtistById(album.artistId);
+
       const card = document.createElement("div");
       card.className = "album-space";
 
@@ -578,8 +551,14 @@ const displayGenreAlbums = () => {
           <h1>${album.title}</h1>
         </a>
 
-        <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
-      ${artist.name}</a></p>
+        <p class="artist-name">
+          ${
+            artist
+              ? `<a class="artist-link" href="artist.html?id=${artist.id}">${artist.name}</a>`
+              : `<span class="artist-link">Unknown Artist</span>`
+          }
+        </p>
+
         <span class="rating">${ratingText}</span>
       `;
 
@@ -588,16 +567,76 @@ const displayGenreAlbums = () => {
   });
 };
 
-
-
-
-if(window.location.pathname.endsWith("genreSearch.html")){
-  
-  
+if (window.location.pathname.endsWith("genreSearch.html")) {
   displayGenreAlbums();
+}
+
+//****************************************************** */
+
+
+//***************//artist search page 
+
+const displayArtists = () => {
+
+const artistContainer = document.getElementById("artist");
+const artistSearchEl = document.getElementById("artist-search-bar");
+const artistSearchBtn = document.getElementById("artist-search-btn");
+
+if(!artistContainer || !artistSearchEl || !artistSearchBtn) return;
+
+artistSearchBtn.addEventListener("click", () => {
+
+  const query = artistSearchEl.value.trim().toLowerCase();
+  artistContainer.innerHTML = "";
+
+  if (!query) {
+  artistContainer.innerHTML = `<p>Please Enter An Artist Name</p>`;
+  return;
+}
+
+
+ const artistFiltered = artists.filter((a) => a.name.toLowerCase() === query);
+
+if(artistFiltered.length === 0){
+
+artistContainer.innerHTML = `<p>No Artists Were Found</p>`;
+
+  return;
+}
+
+artistFiltered.forEach((artist) => {
+
+ const saved = JSON.parse(localStorage.getItem(`artist-review-${artist.id}`) || "null");
+
+ const ratingText = saved ? `★ ${saved.artistRating}/100` : "Not rated";
+
+ const card = document.createElement("div");
+
+ card.className = "artist-space";
+
+ card.innerHTML = `
+        <a class="artist-link" href="artist.html?id=${artist.id}">
+          <img src="${artist.artistImage}" alt="${artist.name}">
+          <h1>${artist.name}</h1>
+        </a>
+
+
+        <span class="rating">${ratingText}</span>
+      `;
+
+      artistContainer.appendChild(card);
+
+});
+
+
+});
 
 }
 
+if (window.location.pathname.endsWith("artistSearch.html")){
+
+  displayArtists();
+}
 
 
 
@@ -629,21 +668,25 @@ const displayTopRatedAlbums = () => {
 
     const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
-    const artist = artists.find(a => a.name === album.artist);
+    const artist = getArtistById(album.artistId);
 
-    
     const card = document.createElement("div");
     card.className = "album-space";
 
-  
     card.innerHTML = `
       <a class="album-link" href="album.html?id=${album.id}">
         <img src="${album.albumCover}" alt="${album.title} album cover">
         <h1>${album.title}</h1>
       </a>
 
-      <p class="artist-name"><a class="artist-link" href="artist.html?id=${artist.id}">
-      ${artist.name}</a></p>
+      <p class="artist-name">
+        ${
+          artist
+            ? `<a class="artist-link" href="artist.html?id=${artist.id}">${artist.name}</a>`
+            : `<span class="artist-link">Unknown Artist</span>`
+        }
+      </p>
+
       <span class="rating">${ratingText}</span>
     `;
 
@@ -651,14 +694,11 @@ const displayTopRatedAlbums = () => {
   });
 };
 
-
-
-
-
 // only run on toprated.html
 if (window.location.pathname.endsWith("toprated.html")) {
   displayTopRatedAlbums();
 }
+
 
 
 
