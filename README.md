@@ -9,16 +9,16 @@ It combines frontend technologies including JavaScript, HTML, and CSS.
 
 - Apply frontend and industry principles to a personal project.
 - Develop my JavaScript skills.
-- Eventually implement Postgresql Database, and backend Java.
+- Eventually implement Postgresql Database.
 - Utilise API's and React.js.
 
 
 ## Tools and Technologies
 
-- **Coding Language**: JavaScript, CSS, HRML Java(later)
+- **Coding Language**: JavaScript, CSS, HTML Java(later)
 - **Version Control**: Git, Github
 - **IDE**: Visual Studio Code
-- **Planned Technologies**: PostgreSQL, Java (Backend), React.js, REST APIs
+- **Planned Technologies**: PostgreSQL, Node.js, Express.js, React.js, REST APIs
 
 ## Disclaimer
 
