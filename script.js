@@ -289,6 +289,7 @@ if (albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl) {
 }
 
 
+
 //****************************************************** */
 
 //individual artist pages
