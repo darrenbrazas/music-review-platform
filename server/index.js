@@ -251,3 +251,93 @@ app.post("/albums/:id/review", (req, res) => {
 
 
 });
+
+//FOR ARTISTS
+
+app.get("/artists", (req, res) => {
+
+  const {name} = req.query;
+
+  if(name){
+
+
+    const n = String(name).trim().toLowerCase();
+    const filtered = artists.filter((a) => a.name.toLowerCase().includes(n));
+
+    return res.json(filtered);
+  }
+
+  res.json(artists);
+
+});
+
+//FOR INDIVIDUAL ARTIST ID USE GET
+
+app.get("/artists/:id", (req, res) => {
+
+  const id = toInt(req.params.id);
+  if(id === null) return res.status(400).json({ error: "Invalid artist id"});
+
+  const artist = findArtist(id);
+  if(!artist) return res.status(404).json({ error: "Artist Not Found"});
+
+  res.json(artist);
+
+
+});
+
+//USE GET FOR ARTIST ALBUMS
+
+app.get("/artist/:id/albums", (req, res) => {
+
+  const id = toInt(req.params.id);
+  if(id === null) return res.status(400).json({ error: "Invalid artist id"});
+  
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
+
+  const filtered = albums.filter((a) => a.artistId === id);
+  res.json(filtered);
+
+});
+
+//USE GET FOR ARTIST REVIEWS
+
+app.get("/artist/:id/review", (req, res) => {
+
+  const id = toInt(req.params.id);
+  if(id === null) return res.status(400).json({ error: "Invalid artist id"});
+
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
+
+  res.json(artistReviews[id] || null);
+
+});
+
+app.post("/artist/:id/review", (req, res) => {
+
+
+  const id = toInt(req.params.id);
+
+  if(id === null) return res.status(400).json({ error: "Invalid artist id"});
+  
+  if(!findArtist) return res.status(404).json({ error: "Artist Not Found"});
+
+  const artistRating = Number(req.body?.artistRating);
+  const artistReview = String(req.body?.artistReview);
+
+  if(!clampRating(artistRating)) return res.status(400).json({ error: "Invalid Rating (Must Be Between 1-100)"});
+
+
+  artistReviews[id] = {
+
+    artistRating,
+    artistReview,
+    updatedAt: Date.now(),
+  }
+
+  res.status(201).json(artistReviews[i]);
+
+
+
+});
+
