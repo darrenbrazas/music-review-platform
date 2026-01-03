@@ -341,3 +341,69 @@ app.post("/artist/:id/review", (req, res) => {
 
 });
 
+app.get("/toprated", (req, res) => {
+
+  const rated = Object.entries(albumReviews).map(([albumId, review]) => {
+
+    const album = findAlbum(Number(albumId));
+    if(!album){
+
+      return null;
+    } 
+    return {album, review};
+  }).filter(Boolean).sort((a, b) => 
+
+
+    b.review.userRating - a.review.userRating
+  );
+
+  res.json(rated);
+
+});
+
+// ---- Discussions ----
+
+// GET /discussions
+app.get("/discussions", (req, res) => {
+  // newest first to match your UI behavior
+  res.json([...discussions].sort((a, b) => b.createdAt - a.createdAt));
+});
+
+// POST /discussions
+app.post("/discussions", (req, res) => {
+  const title = String(req.body?.title ?? "").trim();
+  const subject = String(req.body?.subject ?? "").trim();
+  const body = String(req.body?.body ?? "").trim();
+
+  if (!title || !subject || !body) {
+    return res.status(400).json({ error: "Please fill in Title, Subject, and Body." });
+  }
+
+  const discussion = {
+    id: Date.now(),
+    title,
+    subject,
+    body,
+    createdAt: Date.now(),
+  };
+
+  discussions.push(discussion);
+  res.status(201).json(discussion);
+});
+
+
+
+
+  
+
+
+
+
+
+
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`API running on http://localhost:${PORT}`);
+});
