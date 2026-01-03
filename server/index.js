@@ -247,7 +247,7 @@ app.post("/albums/:id/review", (req, res) => {
 
     };
 
-    res.status(201).json(albumReviews[i]);
+    res.status(201).json(albumReviews[id]);
 
 
 });
@@ -320,7 +320,7 @@ app.post("/artist/:id/review", (req, res) => {
 
   if(id === null) return res.status(400).json({ error: "Invalid artist id"});
   
-  if(!findArtist) return res.status(404).json({ error: "Artist Not Found"});
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
 
   const artistRating = Number(req.body?.artistRating);
   const artistReview = String(req.body?.artistReview);
