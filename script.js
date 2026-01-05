@@ -1,4 +1,4 @@
-
+const APIBASE = "http://localhost:3000";
 const albums = [
   {
     id: 1,
@@ -150,6 +150,8 @@ const getArtistById = (artistId) => {
 
 
 
+
+
 //home button
 
 const homeBtn = document.querySelector(".home-btn");
@@ -211,7 +213,12 @@ const displayAlbums = () => {
   const albumContainer = document.getElementById("albums");
   if (!albumContainer) return;
 
-  albums.forEach((album) => {
+  fetch("http://localhost:5000/albums")
+  .then(res => res.json())
+  .then(albums => 
+    
+    
+  {albums.forEach((album) => {
     const card = document.createElement("div");
     card.className = "album-space";
 
@@ -242,6 +249,10 @@ const displayAlbums = () => {
 
     albumContainer.appendChild(card);
   });
+
+});
+
+  
 };
 
 if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {

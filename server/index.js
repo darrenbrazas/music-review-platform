@@ -392,8 +392,6 @@ app.post("/discussions", (req, res) => {
 });
 
 
-
-
   
 
 
@@ -403,7 +401,7 @@ app.post("/discussions", (req, res) => {
 
 
 
-const PORT = 3000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`API running on http://localhost:${PORT}`);
 });
