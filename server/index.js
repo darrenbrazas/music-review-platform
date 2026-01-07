@@ -335,7 +335,7 @@ app.post("/artist/:id/review", (req, res) => {
     updatedAt: Date.now(),
   }
 
-  res.status(201).json(artistReviews[i]);
+  res.status(201).json(artistReviews[id]);
 
 
 
