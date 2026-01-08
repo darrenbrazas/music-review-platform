@@ -268,6 +268,7 @@ if (window.location.pathname.endsWith("index.html") || window.location.pathname 
 
 //individual album pages 
 
+//individual album pages 
 const albumCoverEl = document.getElementById("album-cover");
 const albumTitleEl = document.getElementById("album-title");
 const albumArtistEl = document.getElementById("artist");
@@ -278,26 +279,33 @@ if (albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl) {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
-  const album = albums.find((a) => a.id === id);
+  // Fetch from backend API instead of local array
+  fetch(`http://localhost:5000/albums/${id}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Album not found");
+      return res.json();
+    })
+    .then(album => {
+      const artist = getArtistById(album.artistId);
 
-  if (!album) {
-    albumTitleEl.textContent = "Album Was Not Found";
-    albumArtistEl.textContent = "";
-    albumCoverEl.alt = "";
-    albumCoverEl.src = "";
-    albumReleaseEl.textContent = "";
-    albumDescriptionEl.textContent = "";
-  } else {
-    const artist = getArtistById(album.artistId);
-
-    albumTitleEl.textContent = album.title;
-    albumArtistEl.textContent = artist ? artist.name : "Unknown Artist";
-    albumCoverEl.alt = `${album.title} album cover`;
-    albumCoverEl.src = album.albumCover;
-    albumReleaseEl.textContent = album.releaseDate;
-    albumDescriptionEl.textContent = album.description;
-  }
+      albumTitleEl.textContent = album.title;
+      albumArtistEl.textContent = artist ? artist.name : "Unknown Artist";
+      albumCoverEl.alt = `${album.title} album cover`;
+      albumCoverEl.src = album.albumCover;
+      albumReleaseEl.textContent = album.releaseDate;
+      albumDescriptionEl.textContent = album.description;
+    })
+    .catch(err => {
+      albumTitleEl.textContent = "Album Was Not Found";
+      albumArtistEl.textContent = "";
+      albumCoverEl.alt = "";
+      albumCoverEl.src = "";
+      albumReleaseEl.textContent = "";
+      albumDescriptionEl.textContent = "";
+      console.error(err);
+    });
 }
+
 
 
 
