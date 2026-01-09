@@ -216,18 +216,12 @@ const displayAlbums = () => {
 
   fetch("http://localhost:5000/albums")
   .then(res => res.json())
-  .then(albums => 
+  .then(albums => {
     
-    
-  {albums.forEach((album) => {
+    albums.forEach((album) => {
     const card = document.createElement("div");
     card.className = "album-space";
 
-    const saved = JSON.parse(
-      localStorage.getItem(`user-review-${album.id}`) || "null"
-    );
-
-    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
 
     const artist = getArtistById(album.artistId);
 
@@ -245,11 +239,38 @@ const displayAlbums = () => {
         }
       </p>
 
-      <span class="rating">${ratingText}</span>
+      <span class="rating" id="rating-${album.id}">Not Rated</span>
     `;
 
     albumContainer.appendChild(card);
+
+    fetch(`http://localhost:5000/albums/${album.id}/review`)
+    .then((res) => {
+
+      if(!res.ok) return null;
+
+      return res.json();
+
+    })
+    .then((review) => {
+
+      const ratingEl = document.getElementById(`rating-${album.id}`);
+            if (!ratingEl) return;
+
+            ratingEl.textContent = review ? `★ ${review.userRating}/100` : "Not rated";
+
+    })
+    .catch( (err) => {
+
+      console.error(err);
+    })
   });
+
+})
+.catch((err) => {
+
+  console.error(err);
+  albumContainer.innerHTML = `<p>Could Not Load Albums</p>`;
 
 });
 
@@ -267,9 +288,7 @@ if (window.location.pathname.endsWith("index.html") || window.location.pathname 
 
 //individual album pages 
 
-//individual album pages 
 
-//individual album pages 
 const albumCoverEl = document.getElementById("album-cover");
 const albumTitleEl = document.getElementById("album-title");
 const albumArtistEl = document.getElementById("artist");
