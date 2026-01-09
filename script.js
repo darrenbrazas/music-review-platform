@@ -1,4 +1,3 @@
-const { error } = require("node:console");
 
 const APIBASE = "http://localhost:3000";
 const albums = [
@@ -381,15 +380,30 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
     const id = params.get("id");
 
 
-    const saved = JSON.parse(localStorage.getItem(`user-review-${id}`) || "null");
 
-    if(saved){
+    //load saved data
+    fetch(`http://localhost:5000/albums/${id}/review`)
+    .then((res) =>{
+        if(!res.ok) return null;
 
-        userRatingEl.value = saved.userRating;
-        userReviewEl.value = saved.userReview;
+        return res.json();
+
+    })
+    .then((saved) => {
+      if(saved){
+
+        userRatingEl.value = saved.userRating ?? "";
+        userReviewEl.value = saved.userReview ?? "";
+
+      }
 
 
-    }
+    })
+    .catch((err) => {
+
+      console.error(err);
+
+    });
 
 
     saveReviewBtn.addEventListener("click", () =>{
@@ -408,9 +422,36 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
      //save the object
 
-    localStorage.setItem(`user-review-${id}`, JSON.stringify({userRating, userReview}));
+    fetch(`http://localhost:5000/albums/${id}/review`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userRating, userReview }),
+    })
+    .then((res) => {
 
-    saveMsg.textContent = "Review Was Successfully Saved!";
+      if(!res.ok) {
+
+        return res.json().then((data) => {
+
+          throw new Error("Failed to save review.");
+        });
+
+
+      }
+
+      return res.json();
+
+    })
+    .then(() => {
+      saveMsg.textContent = "Review Was Successfully Saved!";
+    })
+    .catch((err) => {
+
+      console.error(err);
+      saveMsg.textContent = "Review Was Not Saved!";
+    })
+
+    
 
 
 
@@ -689,24 +730,24 @@ const displayTopRatedAlbums = () => {
 
   albumContainer.innerHTML = "";
 
-  const ratedAlbums = albums
-    .map((album) => {
-      const saved = JSON.parse(
-        localStorage.getItem(`user-review-${album.id}`) || "null"
-      );
+  fetch(`http://localhost:5000/toprated`)
+  .then((res) => {
 
-      const ratingNumber = saved ? Number(saved.userRating) : 0;
+      if (!res.ok) throw new Error("Album Not Found");
+      return res.json();
 
-      return { album, saved, ratingNumber };
-    })
-    .filter((item) => item.ratingNumber > 0)
-    .sort((a, b) => b.ratingNumber - a.ratingNumber);
+  })
+  .then((ratedAlbums) => {
+      if (!Array.isArray(ratedAlbums) || ratedAlbums.length === 0) {
+        albumContainer.innerHTML = `<p>No rated albums yet.</p>`;
+        return;
+      }
 
-  ratedAlbums.forEach((item) => {
+      ratedAlbums.forEach((item) => {
     const album = item.album;
-    const saved = item.saved;
+    const review = item.review;
 
-    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+    const ratingText = review ? `★ ${review.userRating}/100` : "Not rated";
 
     const artist = getArtistById(album.artistId);
 
@@ -731,6 +772,17 @@ const displayTopRatedAlbums = () => {
     `;
 
     albumContainer.appendChild(card);
+
+  });
+
+  
+  })
+  .catch((err) => {
+
+    console.error(err);
+    albumContainer.innerHTML = `<p>Could Not Load Top Rated Albums</p>`;
+
+
   });
 };
 
