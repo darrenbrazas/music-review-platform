@@ -1,3 +1,5 @@
+const { error } = require("node:console");
+
 const APIBASE = "http://localhost:3000";
 const albums = [
   {
@@ -326,21 +328,39 @@ if (artistImageEl && artistNameEl && artistGenreEl && artistBioEl) {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
-  const artist = getArtistById(id);
+  //const artist = getArtistById(id);
 
-  if (!artist) {
-    artistNameEl.textContent = "Artist Was Not Found";
-    artistImageEl.src = "";
-    artistImageEl.alt = "";
-    artistGenreEl.textContent = "";
-    artistBioEl.textContent = "";
-  } else {
+  fetch(`http://localhost:5000/artists/${id}`)
+    .then(res => {
+
+      if (!res.ok) throw new Error("Album Not Found");
+      return res.json();
+
+    })
+    .then(artist => {
+
     artistNameEl.textContent = artist.name;
     artistImageEl.src = artist.artistImage;
     artistImageEl.alt = `${artist.name} image`;
     artistGenreEl.textContent = artist.genre.join(", ");
     artistBioEl.textContent = artist.bio;
-  }
+
+
+
+    })
+    .catch(err => {
+
+    artistNameEl.textContent = "Artist Was Not Found";
+    artistImageEl.src = "";
+    artistImageEl.alt = "";
+    artistGenreEl.textContent = "";
+    artistBioEl.textContent = "";
+    console.error(err)
+
+
+
+    });
+
 }
 
 
