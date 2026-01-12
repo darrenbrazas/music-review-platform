@@ -492,7 +492,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
-    fetch(`http://localhost/artist/${id}/review`)
+    fetch(`http://localhost:5000/artist/${id}/review`)
     .then( (res) =>{
 
       if(!res.ok) return null;
@@ -528,7 +528,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
 
       //save the data
-      fetch(`http://localhost/artist/${id}/review` , {
+      fetch(`http://localhost:5000/artist/${id}/review` , {
         method: "POST",
         headers: {"Content-Type": "application/json" },
         body: JSON.stringify({artistRating, artistReview})
