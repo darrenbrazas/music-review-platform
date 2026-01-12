@@ -470,9 +470,6 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
       saveMsg.textContent = "Review Was Not Saved!";
     })
 
-    
-
-
 
     });
 
@@ -495,14 +492,26 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
-    const saved = JSON.parse(localStorage.getItem(`artist-review-${id}`) || "null");
+    fetch(`http://localhost/artist/${id}/review`)
+    .then( (res) =>{
 
-    if (saved) {
+      if(!res.ok) return null;
 
-      artistRatingEl.value = saved.artistRating;
-      artistReviewEl.value = saved.artistReview;
+      return res.json();
 
-    }
+    })
+    .then((saved) => {
+
+
+      artistReviewEl.value = saved.userReview ?? "";
+      artistRatingEl.value = saved.userRating ?? "";
+    })
+    .catch((err) => {
+
+      console.error(err);
+
+    })
+
 
 
     saveArtistReviewBtn.addEventListener("click", () => {
@@ -518,9 +527,36 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
       }
 
 
-      localStorage.setItem(`artist-review-${id}`, JSON.stringify({artistRating, artistReview}));
+      //save the data
+      fetch(`http://localhost/artist/${id}/review` , {
+        method: "POST",
+        headers: {"Content-Type": "application/json" },
+        body: JSON.stringify({artistRating, artistReview})
+      })
+      .then((res) => {
 
-      saveArtistReviewMsg.textContent = "Review Was Successfully Saved!";
+        if(!res.ok){
+
+          return res.json().then((data) => {
+
+          throw new Error("Failed to save review.");
+        });
+
+        }
+
+        return res.json();
+
+      })
+      .then(() => {
+
+        saveArtistReviewMsg.textContent = "Review Was Successfully Saved!";
+
+      })
+      .catch((err) => {
+
+        console.error(err);
+        saveArtistReviewMsg.textContent = "Review Was Not Saved!";
+      });
     });
 
 
