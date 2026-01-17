@@ -566,8 +566,6 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
 //displaying albums on artist page
 
-//displaying albums on artist page
-
 const displayArtistAlbums = () => {
   const albumContainer = document.getElementById("artist-albums");
   if (!albumContainer) return;
@@ -582,57 +580,71 @@ const displayArtistAlbums = () => {
     return;
   }
 
-  const artist = getArtistById(id);
+  fetch(`http://localhost:5000/artists/${id}`)
+    .then((res) => {
+      if (!res.ok) throw new Error("Could not find artist");
+      return res.json();
+    })
+    .then((artist) => {
+      return fetch(`http://localhost:5000/artist/${id}/albums`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Could not load albums");
+          return res.json();
+        })
+        .then((albums) => ({ artist, albums }));
+    })
+    .then(({ artist, albums }) => {
+      if (!Array.isArray(albums) || albums.length === 0) {
+        albumContainer.innerHTML = `<p>No albums were found</p>`;
+        return;
+      }
 
-  if (!artist) {
-    albumContainer.innerHTML = `<p>Artist was not found.</p>`;
-    return;
-  }
+      albums.forEach((album) => {
+        const card = document.createElement("div");
+        card.className = "artist-album-space";
 
-  const artistFilteredAlbums = albums.filter(
-    (album) => album.artistId === artist.id
-  );
+    
+        card.innerHTML = `
+          <a class="album-link" href="album.html?id=${album.id}">
+            <img src="${album.albumCover}" alt="${album.title} album cover">
+            <h1>${album.title}</h1>
+          </a>
 
-  if (artistFilteredAlbums.length === 0) {
-    albumContainer.innerHTML = `<p>No albums were found</p>`;
-    return;
-  }
+          <p class="artist-name">
+            <a class="artist-link" href="artist.html?id=${artist.id}">
+              ${artist.name}
+            </a>
+          </p>
 
-  artistFilteredAlbums.forEach((album) => {
-    const saved = JSON.parse(
-      localStorage.getItem(`user-review-${album.id}`) || "null"
-    );
+          <span class="rating" id="rating-${album.id}">Not Rated</span>
+        `;
 
-    const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+        albumContainer.appendChild(card);
 
-    const card = document.createElement("div");
-    card.className = "artist-album-space";
+   
+        fetch(`http://localhost:5000/albums/${album.id}/review`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((review) => {
+            const ratingEl = document.getElementById(`rating-${album.id}`);
+            if (!ratingEl) return;
 
-
-
-    card.innerHTML = `
-      
-      <a class="album-link" href="album.html?id=${album.id}">
-        <img src="${album.albumCover}" alt="${album.title} album cover">
-        <h1>${album.title}</h1>
-      </a>
-
-      <p class="artist-name">
-        <a class="artist-link" href="artist.html?id=${artist.id}">
-          ${artist.name}
-        </a>
-      </p>
-
-      <span class="rating">${ratingText}</span>
-    `;
-
-    albumContainer.appendChild(card);
-  });
+            ratingEl.textContent = review
+              ? `★ ${review.userRating}/100`
+              : "Not Rated";
+          })
+          .catch(console.error);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      albumContainer.innerHTML = `<p>Could not load artist albums</p>`;
+    });
 };
 
 if (window.location.pathname.endsWith("artist.html")) {
   displayArtistAlbums();
 }
+
 
 
 
