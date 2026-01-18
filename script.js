@@ -1,4 +1,5 @@
 
+
 const APIBASE = "http://localhost:3000";
 const albums = [
   {
@@ -865,7 +866,7 @@ if (window.location.pathname.endsWith("toprated.html")) {
 
 /********************************************************* */
 
-//Discussion
+// Discussion (single copy)
 
 function escapeHTML(str) {
   return String(str).replace(/[&<>"']/g, (ch) => ({
@@ -882,7 +883,7 @@ const createDiscussionBtnEl = document.getElementById("discussion-create-btn");
 const discussionTitleEl = document.getElementById("discussion-title");
 const discussionSubjectEl = document.getElementById("discussion-subject");
 const discussionBodyEl = document.getElementById("discussion-body");
-
+const submitBtnEl = document.getElementById("submit-discussion-btn");
 
 if (createDiscussionBtnEl && form) {
   createDiscussionBtnEl.addEventListener("click", () => {
@@ -890,75 +891,84 @@ if (createDiscussionBtnEl && form) {
   });
 }
 
-if (discussionTitleEl && discussionSubjectEl && discussionBodyEl) {
-
-
-  const savedDiscussions = JSON.parse(localStorage.getItem("discussionsContainer") || "[]");
-
-  const submitBtnEl = document.getElementById("submit-discussion-btn");
-
-  if (submitBtnEl) {
-    submitBtnEl.addEventListener("click", (e) => {
-      e.preventDefault(); 
-
-      const discussionTitle = discussionTitleEl.value.trim();
-      const discussionSubject = discussionSubjectEl.value.trim();
-      const discussionBody = discussionBodyEl.value.trim();
-
-      if (!discussionTitle || !discussionSubject || !discussionBody) {
-        alert("Please fill in Title, Subject, and Body.");
-        return;
-      }
-
-      savedDiscussions.push({
-        title: discussionTitle,
-        subject: discussionSubject,
-        body: discussionBody,
-        createdAt: Date.now()
-      });
-
-      localStorage.setItem("discussionsContainer", JSON.stringify(savedDiscussions));
-
-      form.style.display = "none";
-
-      displayDiscussions();
-    });
-  }
-}
-
-//somehow tell the html to display all the existing discussions and also implement a create discussion
-
 const displayDiscussions = () => {
-
-
   const discussionEl = document.getElementById("discussions");
   if (!discussionEl) return;
 
-  const discussions = JSON.parse(localStorage.getItem("discussionsContainer") || "[]");
+  discussionEl.innerHTML = "<p>Loading...</p>";
 
-  discussionEl.innerHTML = "";
+  fetch("http://localhost:5000/discussions")
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to load discussions");
+      return res.json();
+    })
+    .then((discussions) => {
+      discussionEl.innerHTML = "";
 
-  if (discussions.length === 0) {
-    discussionEl.innerHTML = `<p>There are no discussions yet, please create one!</p>`;
-    return;
-  }
+      if (!Array.isArray(discussions) || discussions.length === 0) {
+        discussionEl.innerHTML = `<p>There are no discussions yet...</p>`;
+        return;
+      }
 
-  discussions.slice().reverse().forEach((d) => {
-    const card = document.createElement("div");
-    card.className = "discussion-card";
+      discussions.forEach((d) => {
+        const card = document.createElement("div");
+        card.className = "discussion-card";
 
-    card.innerHTML = `
-      <h3>${escapeHTML(d.title)}</h3>
-      <p><strong>${escapeHTML(d.subject)}</strong></p>
-      <p>${escapeHTML(d.body)}</p>
-      <small>${new Date(d.createdAt).toLocaleString()}</small>
-    `;
+        card.innerHTML = `
+          <h3>${escapeHTML(d.title)}</h3>
+          <p><strong>${escapeHTML(d.subject)}</strong></p>
+          <p>${escapeHTML(d.body)}</p>
+          <small>${new Date(d.createdAt).toLocaleString()}</small>
+        `;
 
-    
-    discussionEl.appendChild(card);
+        discussionEl.appendChild(card);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      discussionEl.innerHTML = "<p>Could not load discussions.</p>";
+    });
+};
+
+if (submitBtnEl && discussionTitleEl && discussionSubjectEl && discussionBodyEl) {
+  submitBtnEl.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = discussionTitleEl.value.trim();
+    const subject = discussionSubjectEl.value.trim();
+    const body = discussionBodyEl.value.trim();
+
+    if (!title || !subject || !body) {
+      alert("Please fill in Title, Subject, and Body.");
+      return;
+    }
+
+    fetch("http://localhost:5000/discussions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, subject, body }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data?.error || "Failed to create discussion");
+          });
+        }
+        return res.json();
+      })
+      .then(() => {
+        discussionTitleEl.value = "";
+        discussionSubjectEl.value = "";
+        discussionBodyEl.value = "";
+        if (form) form.style.display = "none";
+        displayDiscussions();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Could not create discussion.");
+      });
   });
 }
-
 
 if (window.location.pathname.endsWith("discussion.html")) {
   displayDiscussions();
