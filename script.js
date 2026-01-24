@@ -673,23 +673,27 @@ const displayGenreAlbums = () => {
       return;
     }
 
-    const genreFilteredAlbums = albums.filter(
-      (album) => album.genre.toLowerCase() === genre
-    );
 
-    if (genreFilteredAlbums.length === 0) {
-      albumContainer.innerHTML = `<p>No albums were found</p>`;
-      return;
-    }
+    fetch(`http://localhost:5000/albums?genre=${encodeURIComponent(genre)}`)
+    .then( (res) => {
 
-    genreFilteredAlbums.forEach((album) => {
-      const saved = JSON.parse(
-        localStorage.getItem(`user-review-${album.id}`) || "null"
-      );
+      if(!res.ok) throw new Error("Could not load albums")
 
-      const ratingText = saved ? `★ ${saved.userRating}/100` : "Not rated";
+        return res.json()
+    }) 
+    .then((genreFilteredAlbums) => {
 
-      const artist = getArtistById(album.artistId);
+      albumContainer.innerHTML = "";
+
+      if(!Array.isArray(genreFilteredAlbums) || genreFilteredAlbums.length === 0){
+
+        albumContainer.innerHTML = `<p>No albums were found</p>`;
+        return;
+      }
+
+      genreFilteredAlbums.forEach((album) => {
+
+        const artist = getArtistById(album.artistId);
 
       const card = document.createElement("div");
       card.className = "album-space";
@@ -708,11 +712,44 @@ const displayGenreAlbums = () => {
           }
         </p>
 
-        <span class="rating">${ratingText}</span>
+        <span class="rating" id="rating-${album.id}">Not rated</span>
       `;
 
       albumContainer.appendChild(card);
+
+      fetch(`http://localhost:5000/albums/${album.id}/review`)
+      .then((res) => {
+
+        if(!res.ok) return null;
+
+        return res.json();
+
+      })
+      .then((review) => {
+
+
+        const ratingEl = document.getElementById(`rating-${album.id}`);
+
+        if(!ratingEl) return;
+
+        ratingEl.textContent = review
+          ? `★ ${review.userRating}/100`
+          : "Not rated";
+      })
+      .catch((err) => console.error(err));
+
+
+        
+
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      albumContainer.innerHTML = `<p>Could Not Load Albums</p>`
     });
+
+   
+
   });
 };
 
@@ -743,23 +780,31 @@ artistSearchBtn.addEventListener("click", () => {
   return;
 }
 
+fetch(`http://localhost:5000/artists?name=${encodeURIComponent(query)}`)
+.then((res) => {
 
- const artistFiltered = artists.filter((a) => a.name.toLowerCase() === query);
+  if(!res.ok) throw new Error("Could not find artist");
 
-if(artistFiltered.length === 0){
+  return res.json();
 
-artistContainer.innerHTML = `<p>No Artists Were Found</p>`;
 
-  return;
-}
+})
+.then((artistFiltered) => {
 
-artistFiltered.forEach((artist) => {
 
- const saved = JSON.parse(localStorage.getItem(`artist-review-${artist.id}`) || "null");
+  artistContainer.innerHTML = "";
 
- const ratingText = saved ? `★ ${saved.artistRating}/100` : "Not rated";
+  if(!Array.isArray(artistFiltered) || artistFiltered.length === 0){
 
- const card = document.createElement("div");
+
+    artistContainer.innerHTML = `<p>No artists were found</p>`
+    return;
+  }
+
+
+  artistFiltered.forEach((artist) => {
+
+    const card = document.createElement("div");
 
  card.className = "artist-space";
 
@@ -770,10 +815,43 @@ artistFiltered.forEach((artist) => {
         </a>
 
 
-        <span class="rating">${ratingText}</span>
+        <span class="rating" id="artist-rating-${artist.id}">Not rated</span>
       `;
 
       artistContainer.appendChild(card);
+
+
+      fetch(`http://localhost:5000/artist/${artist.id}/review`)
+      .then((res) => {
+
+        if(!res.ok) return null;
+
+        return res.json();
+
+      })
+      .then((review) => {
+
+        const ratingEl = document.getElementById(`artist-rating-${artist.id}`);
+
+        if(!ratingEl) return;
+
+
+        ratingEl.textContent = review
+                ? `★ ${review.artistRating}/100`
+                : "Not rated";
+
+      })
+      .catch((err) => console.error(err));
+
+
+
+  });
+})
+.catch((err) => {
+
+  console.error(err);
+
+  artistContainer.innerHTML = `<p>Could Not Load Artists</p>`;
 
 });
 
