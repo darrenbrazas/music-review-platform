@@ -1,154 +1,42 @@
 
 
-const APIBASE = "http://localhost:3000";
-const albums = [
-  {
-    id: 1,
-    title: "Ants From Up There",
-    artistId: 1,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/d/d7/Ants_from_Up_There_-_Black_Country%2C_New_Road.jpg",
-    releaseDate: 2022,
-    description: "Critially Acclaimed as one of the greatest albums of the 2020s",
-    genre: "rock"
-  },
-  {
-    id: 2,
-    title: "Imaginal Disk",
-    artistId: 2,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/4/4b/Magdalena_Bay_-_Imaginal_Disk.png",
-    releaseDate: 2024,
-    description: "The creators favorite pop record of all time!",
-    genre: "pop"
-  },
-  {
-    id: 3,
-    title: "Getting Killed",
-    artistId: 3,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Geese_-_Getting_Killed.jpg/250px-Geese_-_Getting_Killed.jpg",
-    releaseDate: 2025,
-    description: "The creators favorite album of 2025",
-    genre: "rock"
-  },
-  {
-    id: 4,
-    title: "Discovery",
-    artistId: 4,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/2/27/Daft_Punk_-_Discovery.png",
-    releaseDate: 2001,
-    description: "Best French House Record of All Time",
-    genre: "electronic"
-  },
-  {
-    id: 5,
-    title: "To Pimp A Butterfly",
-    artistId: 5,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
-    releaseDate: 2015,
-    description: "Best Hip-hop record of all time",
-    genre: "hip-hop"
-  },
-  {
-    id: 6,
-    title: "Abbey Road",
-    artistId: 6,
-    albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Beatles_-_Abbey_Road.jpg/960px-Beatles_-_Abbey_Road.jpg",
-    releaseDate: 1969,
-    description: "Legendary and influential album",
-    genre: "pop"
-  },
-  {
-    id: 7,
-    title: "DAMN.",
-    artistId: 5,
-    albumCover: "https://upload.wikimedia.org/wikipedia/en/5/51/Kendrick_Lamar_-_Damn.png",
-    releaseDate: 2017,
-    description: "One of Kendrick's Bests Conceptual Albums",
-    genre: "hip-hop"
-  }
-
-
-];
+const APIBASE = "http://localhost:5000";
 
 
 
 //artists array
 
 
-const artists = [
 
-    {
 
-      id: 1,
-      name: "Black Country New Road",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Black_Country%2C_New_Road_at_O2_Shepherd%27s_Bush_Empire.png",
-      bio: "British Post-Rock Band",
-      genre: ["Rock", "Pop"]
-      
+//load the artists so that they can be used
 
-    },
+let artistCache = {};
 
-    {
+const loadArtists = () => {
 
-      id: 2,
-      name: "Magdalena Bay",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Magdalena_Bay_%2853775447004%29.jpg/1280px-Magdalena_Bay_%2853775447004%29.jpg",
-      bio: "Upcoming Pop Duo",
-      genre: ["Pop" , "Neo-Psychedelia"]
-      
+  return fetch(`http://localhost:5000/artists`)
+  .then(res => {
 
-    },
+    if(!res.ok) throw new Error("Could not load artists")
 
-    {
+      return res.json();
 
-      id: 3,
-      name: "Geese",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Geese_%28Band%29_Philadelphia_August_2024.jpg/1280px-Geese_%28Band%29_Philadelphia_August_2024.jpg",
-      bio: "Defying Indie Rock Band",
-      genre: ["Rock" , "Indie Rock"]
-      
+  })
+  .then(list => {
 
-    },
+    artistCache = {};
+    list.forEach(a => artistCache[a.id] = a);
 
-    {
+  })
 
-      id: 4,
-      name: "Daft Punk",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Daft_Punk_in_2013_2-_centered.jpg/1280px-Daft_Punk_in_2013_2-_centered.jpg",
-      bio: "Legendary French Electronic Duo",
-      genre: ["Electronic" , "French House"]
-      
 
-    },
-
-    {
-
-      id: 5,
-      name: "Kendrick Lamar",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/KendrickSZASPurs230725-144_%28cropped%29.jpg/960px-KendrickSZASPurs230725-144_%28cropped%29.jpg",
-      bio: "Era Defining Rapper",
-      genre: ["Hip-Hop" , "West Coast Hip-Hop"]
-      
-
-    },
-
-    {
-
-      id: 6,
-      name: "The Beatles",
-      artistImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/The_Beatles_1963_Dezo_Hoffman_Capitol_Records_press_photo_4-3_crop.jpg/1280px-The_Beatles_1963_Dezo_Hoffman_Capitol_Records_press_photo_4-3_crop.jpg",
-      bio: "Influential Band",
-      genre: ["Pop" , "Rock"]
-      
-
-    },
-
-    
-
-];
+}
 
 const getArtistById = (artistId) => {
-  return artists.find(a => a.id === Number(artistId)) || null;
+  return artistCache[Number(artistId)] || null;
 };
+
 
 
 
@@ -279,7 +167,7 @@ const displayAlbums = () => {
 };
 
 if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-  displayAlbums();
+  loadArtists().then(displayAlbums).catch(console.error);
 }
 
     
@@ -300,8 +188,8 @@ if (albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl) {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
-  // Fetch from backend API instead of local array
-  fetch(`http://localhost:5000/albums/${id}`)
+  loadArtists()
+    .then(() => fetch(`http://localhost:5000/albums/${id}`))
     .then(res => {
       if (!res.ok) throw new Error("Album not found");
       return res.json();
@@ -502,10 +390,9 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
     })
     .then((saved) => {
-
-
-      artistReviewEl.value = saved.userReview ?? "";
-      artistRatingEl.value = saved.userRating ?? "";
+    if (!saved) return;
+    artistReviewEl.value = saved.artistReview ?? "";
+    artistRatingEl.value = saved.artistRating ?? "";
     })
     .catch((err) => {
 
@@ -754,7 +641,7 @@ const displayGenreAlbums = () => {
 };
 
 if (window.location.pathname.endsWith("genreSearch.html")) {
-  displayGenreAlbums();
+  loadArtists().then(displayGenreAlbums).catch(console.error);
 }
 
 //****************************************************** */
@@ -934,7 +821,7 @@ const displayTopRatedAlbums = () => {
 
 // only run on toprated.html
 if (window.location.pathname.endsWith("toprated.html")) {
-  displayTopRatedAlbums();
+  loadArtists().then(displayTopRatedAlbums).catch(console.error);
 }
 
 
