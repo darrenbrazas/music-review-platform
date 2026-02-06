@@ -2,13 +2,6 @@
 
 const APIBASE = "http://localhost:5000";
 
-
-
-//artists array
-
-
-
-
 //load the artists so that they can be used
 
 let artistCache = {};
