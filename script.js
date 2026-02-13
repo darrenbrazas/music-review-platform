@@ -8,7 +8,7 @@ let artistCache = {};
 
 const loadArtists = () => {
 
-  return fetch(`http://localhost:5000/artists`)
+  return fetch(`${APIBASE}/artists`)
   .then(res => {
 
     if(!res.ok) throw new Error("Could not load artists")
@@ -96,7 +96,7 @@ const displayAlbums = () => {
   const albumContainer = document.getElementById("albums");
   if (!albumContainer) return;
 
-  fetch("http://localhost:5000/albums")
+  fetch(`${APIBASE}/albums`)
   .then(res => res.json())
   .then(albums => {
     
@@ -126,7 +126,7 @@ const displayAlbums = () => {
 
     albumContainer.appendChild(card);
 
-    fetch(`http://localhost:5000/albums/${album.id}/review`)
+    fetch(`${APIBASE}/albums/${album.id}/review`)
     .then((res) => {
 
       if(!res.ok) return null;
@@ -182,9 +182,9 @@ if (albumCoverEl && albumTitleEl && albumArtistEl && albumReleaseEl) {
   const id = Number(params.get("id"));
 
   loadArtists()
-    .then(() => fetch(`http://localhost:5000/albums/${id}`))
+    .then(() => fetch(`${APIBASE}/albums/${id}`))
     .then(res => {
-      if (!res.ok) throw new Error("Album not found");
+      if (!res.ok) throw new Error("Artist not found");
       return res.json();
     })
     .then(album => {
@@ -230,7 +230,7 @@ if (artistImageEl && artistNameEl && artistGenreEl && artistBioEl) {
 
   //const artist = getArtistById(id);
 
-  fetch(`http://localhost:5000/artists/${id}`)
+  fetch(`${APIBASE}/artists/${id}`)
     .then(res => {
 
       if (!res.ok) throw new Error("Album Not Found");
@@ -283,7 +283,7 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
 
     //load saved data
-    fetch(`http://localhost:5000/albums/${id}/review`)
+    fetch(`${APIBASE}/albums/${id}/review`)
     .then((res) =>{
         if(!res.ok) return null;
 
@@ -323,7 +323,7 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
      //save the object
 
-    fetch(`http://localhost:5000/albums/${id}/review`, {
+    fetch(`${APIBASE}/albums/${id}/review`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userRating, userReview }),
@@ -374,7 +374,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
-    fetch(`http://localhost:5000/artist/${id}/review`)
+    fetch(`${APIBASE}/artists/${id}/review`)
     .then( (res) =>{
 
       if(!res.ok) return null;
@@ -409,7 +409,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
 
       //save the data
-      fetch(`http://localhost:5000/artist/${id}/review` , {
+      fetch(`${APIBASE}/artists/${id}/review` , {
         method: "POST",
         headers: {"Content-Type": "application/json" },
         body: JSON.stringify({artistRating, artistReview})
@@ -461,13 +461,13 @@ const displayArtistAlbums = () => {
     return;
   }
 
-  fetch(`http://localhost:5000/artists/${id}`)
+  fetch(`${APIBASE}/artists/${id}`)
     .then((res) => {
       if (!res.ok) throw new Error("Could not find artist");
       return res.json();
     })
     .then((artist) => {
-      return fetch(`http://localhost:5000/artist/${id}/albums`)
+      return fetch(`${APIBASE}/artists/${id}/albums`)
         .then((res) => {
           if (!res.ok) throw new Error("Could not load albums");
           return res.json();
@@ -503,7 +503,7 @@ const displayArtistAlbums = () => {
         albumContainer.appendChild(card);
 
    
-        fetch(`http://localhost:5000/albums/${album.id}/review`)
+        fetch(`${APIBASE}/albums/${album.id}/review`)
           .then((res) => (res.ok ? res.json() : null))
           .then((review) => {
             const ratingEl = document.getElementById(`rating-${album.id}`);
@@ -554,7 +554,7 @@ const displayGenreAlbums = () => {
     }
 
 
-    fetch(`http://localhost:5000/albums?genre=${encodeURIComponent(genre)}`)
+    fetch(`${APIBASE}/albums?genre=${encodeURIComponent(genre)}`)
     .then( (res) => {
 
       if(!res.ok) throw new Error("Could not load albums")
@@ -597,7 +597,7 @@ const displayGenreAlbums = () => {
 
       albumContainer.appendChild(card);
 
-      fetch(`http://localhost:5000/albums/${album.id}/review`)
+      fetch(`${APIBASE}/albums/${album.id}/review`)
       .then((res) => {
 
         if(!res.ok) return null;
@@ -660,7 +660,7 @@ artistSearchBtn.addEventListener("click", () => {
   return;
 }
 
-fetch(`http://localhost:5000/artists?name=${encodeURIComponent(query)}`)
+fetch(`${APIBASE}/artists?name=${encodeURIComponent(query)}`)
 .then((res) => {
 
   if(!res.ok) throw new Error("Could not find artist");
@@ -701,7 +701,7 @@ fetch(`http://localhost:5000/artists?name=${encodeURIComponent(query)}`)
       artistContainer.appendChild(card);
 
 
-      fetch(`http://localhost:5000/artist/${artist.id}/review`)
+      fetch(`${APIBASE}/artists/${artist.id}/review`)
       .then((res) => {
 
         if(!res.ok) return null;
@@ -756,7 +756,7 @@ const displayTopRatedAlbums = () => {
 
   albumContainer.innerHTML = "";
 
-  fetch(`http://localhost:5000/toprated`)
+  fetch(`${APIBASE}/toprated`)
   .then((res) => {
 
       if (!res.ok) throw new Error("Album Not Found");
@@ -855,7 +855,7 @@ const displayDiscussions = () => {
 
   discussionEl.innerHTML = "<p>Loading...</p>";
 
-  fetch("http://localhost:5000/discussions")
+  fetch(`${APIBASE}/discussions`)
     .then((res) => {
       if (!res.ok) throw new Error("Failed to load discussions");
       return res.json();
@@ -901,7 +901,7 @@ if (submitBtnEl && discussionTitleEl && discussionSubjectEl && discussionBodyEl)
       return;
     }
 
-    fetch("http://localhost:5000/discussions", {
+    fetch(`${APIBASE}/discussions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, subject, body }),

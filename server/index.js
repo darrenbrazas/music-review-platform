@@ -279,7 +279,7 @@ app.get("/artists/:id", (req, res) => {
   if(id === null) return res.status(400).json({ error: "Invalid artist id"});
 
   const artist = findArtist(id);
-  if(!artist) return res.status(404).json({ error: "Artist Not Found"});
+  if(!artist) return res.status(404).json({ error: "Artist not Found"});
 
   res.json(artist);
 
@@ -288,12 +288,12 @@ app.get("/artists/:id", (req, res) => {
 
 //USE GET FOR ARTIST ALBUMS
 
-app.get("/artist/:id/albums", (req, res) => {
+app.get("/artists/:id/albums", (req, res) => {
 
   const id = toInt(req.params.id);
   if(id === null) return res.status(400).json({ error: "Invalid artist id"});
   
-  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist not Found"});
 
   const filtered = albums.filter((a) => a.artistId === id);
   res.json(filtered);
@@ -302,25 +302,25 @@ app.get("/artist/:id/albums", (req, res) => {
 
 //USE GET FOR ARTIST REVIEWS
 
-app.get("/artist/:id/review", (req, res) => {
+app.get("/artists/:id/review", (req, res) => {
 
   const id = toInt(req.params.id);
   if(id === null) return res.status(400).json({ error: "Invalid artist id"});
 
-  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist not Found"});
 
   res.json(artistReviews[id] || null);
 
 });
 
-app.post("/artist/:id/review", (req, res) => {
+app.post("/artists/:id/review", (req, res) => {
 
 
   const id = toInt(req.params.id);
 
   if(id === null) return res.status(400).json({ error: "Invalid artist id"});
   
-  if(!findArtist(id)) return res.status(404).json({ error: "Artist Not Found"});
+  if(!findArtist(id)) return res.status(404).json({ error: "Artist not Found"});
 
   const artistRating = Number(req.body?.artistRating);
   const artistReview = String(req.body?.artistReview);
