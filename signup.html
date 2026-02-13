@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ReviewMu</title>
+
+    <link rel = "stylesheet" href = "style.css">
+
+
+
+
+</head>
+
+<body>
+
+
+    <main>
+
+        <div class = "signup">
+
+            <h2>Signup</h2>
+            <p id = "error-message"></p>
+            <form id ="form">
+
+                <div>
+                    <label for ="firstName-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                    </label>
+                    <input type = "text" name = "firstName" id = "firstName-input" placeholder="First Name">
+
+                </div>
+
+                <div>
+                    <label for ="email-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></svg>
+                    </label>
+                    <input type = "email" name = "email" id = "email-input" placeholder="Email Address">
+
+                </div>
+
+                <div>
+                    <label for ="password-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M80-200v-80h800v80H80Zm46-242-52-30 34-60H40v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Z"/></svg>
+                    </label>
+                    <input type = "password" name = "password" id = "password-input" placeholder="Password">
+
+                </div>
+
+                <div>
+                    <label for ="repeatPassword-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M80-200v-80h800v80H80Zm46-242-52-30 34-60H40v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Z"/></svg>
+                    </label>
+                    <input type = "password" name = "password" id = "repeatPassword-input" placeholder="Password">
+
+                </div>
+
+                <button type="submit">Sign Up</button>
+
+            </form>
+
+            <p>Already have an account? <a href ="login.html">login</a></p>
+
+        </div>
+
+
+
+    </main>
+
+
+
+
+<script src="validation.js"></script>
+</body>
