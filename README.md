@@ -1,7 +1,7 @@
 # music-review-platform
 
 ## 🚀 Live Demo
-👉 [View the App Here](https://darrenbrazas.github.io/music-review-platform1/)
+👉 [View the App Here](https://darrenbrazas.github.io/music-review-platform/)
 
 ## Overview
 
