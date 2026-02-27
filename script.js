@@ -168,11 +168,7 @@ const displayAlbums = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (
-    window.location.pathname.endsWith("index.html") ||
-    window.location.pathname === "/music-review-platform/" ||
-    window.location.pathname === "/music-review-platform"
-  ) {
+  if (document.getElementById("albums")) {
     loadArtists().then(displayAlbums).catch(console.error);
   }
 });
