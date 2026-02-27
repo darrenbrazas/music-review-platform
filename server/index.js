@@ -3,6 +3,10 @@ const cors = require("cors");
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("ReviewMu API is running ✅ Try /albums or /artists");
+});
+
 ///////////////////////////////////////////////
 app.use(cors({
   origin: [
