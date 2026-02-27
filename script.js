@@ -1,6 +1,6 @@
 
 
-const APIBASE = "http://localhost:5000";
+const APIBASE = "https://music-review-platform.onrender.com";
 
 //load the artists so that they can be used
 
