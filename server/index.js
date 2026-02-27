@@ -5,9 +5,11 @@ const app = express();
 
 ///////////////////////////////////////////////
 app.use(cors({
-
-    origin : ['http://localhost:3000', 'http://127.0.0.1:3000']
-
+  origin: [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://darrenbrazas.github.io"
+  ]
 }));
 
 app.use(express.json());
@@ -401,7 +403,7 @@ app.post("/discussions", (req, res) => {
 
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`);
+  console.log(`API running on port ${PORT}`);
 });
