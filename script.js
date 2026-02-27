@@ -1,4 +1,6 @@
-const APIBASE = "https://music-review-platform.onrender.com";
+
+
+const APIBASE = "http://localhost:5000";
 
 //load the artists so that they can be used
 
@@ -157,11 +159,13 @@ const displayAlbums = () => {
   
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("albums")) {
-    loadArtists().then(displayAlbums).catch(console.error);
-  }
-});
+if (
+  window.location.pathname.endsWith("index.html") ||
+  window.location.pathname.endsWith("/") ||
+  window.location.pathname === "/music-review-platform"
+) {
+  loadArtists().then(displayAlbums).catch(console.error);
+}
 
     
 
