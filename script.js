@@ -96,9 +96,17 @@ const displayAlbums = () => {
   const albumContainer = document.getElementById("albums");
   if (!albumContainer) return;
 
+  albumContainer.innerHTML = "<p>Loading albums...</p>";
+
   fetch(`${APIBASE}/albums`)
-  .then(res => res.json())
+  .then((res) => {
+    
+      if (!res.ok) throw new Error("Failed to load albums");
+      return res.json();
+    })
   .then(albums => {
+
+    albumContainer.innerHTML = "";
     
     albums.forEach((album) => {
     const card = document.createElement("div");
@@ -159,13 +167,15 @@ const displayAlbums = () => {
   
 };
 
-if (
-  window.location.pathname.endsWith("index.html") ||
-  window.location.pathname.endsWith("/") ||
-  window.location.pathname === "/music-review-platform"
-) {
-  loadArtists().then(displayAlbums).catch(console.error);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.location.pathname.endsWith("index.html") ||
+    window.location.pathname === "/music-review-platform/" ||
+    window.location.pathname === "/music-review-platform"
+  ) {
+    loadArtists().then(displayAlbums).catch(console.error);
+  }
+});
 
     
 
