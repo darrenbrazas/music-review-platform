@@ -3,11 +3,17 @@ const cors = require("cors");
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("ReviewMu API is running ✅ Try /albums or /artists");
+});
+
 ///////////////////////////////////////////////
 app.use(cors({
-
-    origin : ['http://localhost:3000', 'http://127.0.0.1:3000']
-
+  origin: [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://darrenbrazas.github.io"
+  ]
 }));
 
 app.use(express.json());
@@ -65,7 +71,7 @@ const albums = [
     id: 6,
     title: "Abbey Road",
     artistId: 6,
-    albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Beatles_-_Abbey_Road.jpg/960px-Beatles_-_Abbey_Road.jpg",
+    albumCover: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/The_Beatles_Abbey_Road_album_cover.jpg/960px-The_Beatles_Abbey_Road_album_cover.jpg",
     releaseDate: 1969,
     description: "Legendary and influential album",
     genre: "pop"
@@ -401,7 +407,7 @@ app.post("/discussions", (req, res) => {
 
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`);
+  console.log(`API running on port ${PORT}`);
 });
