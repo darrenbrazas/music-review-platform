@@ -1,6 +1,4 @@
-
-
-const APIBASE = "http://localhost:5000";
+const APIBASE = "https://music-review-platform.onrender.com";
 
 //load the artists so that they can be used
 
@@ -96,9 +94,17 @@ const displayAlbums = () => {
   const albumContainer = document.getElementById("albums");
   if (!albumContainer) return;
 
+  albumContainer.innerHTML = "<p>Loading albums...</p>";
+
   fetch(`${APIBASE}/albums`)
-  .then(res => res.json())
+  .then((res) => {
+    
+      if (!res.ok) throw new Error("Failed to load albums");
+      return res.json();
+    })
   .then(albums => {
+
+    albumContainer.innerHTML = "";
     
     albums.forEach((album) => {
     const card = document.createElement("div");
@@ -159,9 +165,11 @@ const displayAlbums = () => {
   
 };
 
-if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-  loadArtists().then(displayAlbums).catch(console.error);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("albums")) {
+    loadArtists().then(displayAlbums).catch(console.error);
+  }
+});
 
     
 
