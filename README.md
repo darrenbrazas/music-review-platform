@@ -1,8 +1,5 @@
 # music-review-platform
 
-## 🚀 Live Demo
-👉 [View the App Here](https://darrenbrazas.github.io/music-review-platform/)
-
 ## Overview
 
 This project is an ongoing JavaScript-based web application that allows users to review music.
