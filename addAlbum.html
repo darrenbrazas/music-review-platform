@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReviewMu — Add Album</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main>
+        <h1 class="home-btn">ReviewMu</h1>
+
+        <div class="top-bar">
+            <button class="menu-btn" id="artist-menu-btn">Artists</button>
+            <button class="menu-btn" id="genre-menu-btn">Genres</button>
+            <button class="menu-btn" id="toprated-menu-btn">Top Rated</button>
+            <button class="menu-btn" id="popular-menu-btn">Popular Right Now</button>
+            <button class="menu-btn" id="discussion-menu-btn">Discussions</button>
+            <button class="menu-btn" id="add-album-btn" style="display:none">+ Add Album</button>
+            <button class="menu-btn" id="login-btn">Login</button>
+            <button class="menu-btn" id="logout-btn" style="display:none">Logout</button>
+        </div>
+
+        <div class="add-album-page">
+            <h2>Add Album</h2>
+            <p id="add-album-msg"></p>
+
+            <form id="add-album-form">
+                <label for="new-title">Title *</label>
+                <input id="new-title" type="text" placeholder="Album title" required>
+
+                <label for="new-artist">Artist *</label>
+                <select id="new-artist">
+                    <option value="">Loading artists...</option>
+                </select>
+
+                <label for="new-genre">Genre</label>
+                <input id="new-genre" type="text" placeholder="e.g. rock, pop, hip-hop">
+
+                <label for="new-release">Release Year</label>
+                <input id="new-release" type="number" placeholder="e.g. 2024" min="1900" max="2099">
+
+                <label for="new-cover">Album Cover URL</label>
+                <input id="new-cover" type="url" placeholder="https://...">
+
+                <label for="new-description">Description</label>
+                <textarea id="new-description" placeholder="A short description..."></textarea>
+
+                <button type="submit" id="submit-album-btn">Add Album</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
