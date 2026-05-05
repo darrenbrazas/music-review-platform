@@ -339,3 +339,89 @@ nav button:hover,
   font-weight: 600;
   margin-top: 0.4rem;
 }
+.add-album-page {
+  max-width: 520px;
+  margin: 2rem auto;
+}
+
+.add-album-page h2 {
+  margin-bottom: 1rem;
+}
+
+#add-album-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+#add-album-form label {
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+
+#add-album-form input,
+#add-album-form select,
+#add-album-form textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+}
+
+#add-album-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+#add-album-msg {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.popular-page {
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.popular-page h2 {
+  margin-bottom: 1.5rem;
+}
+
+.popular-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.popular-rank {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #94a3b8;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.popular-cover {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.popular-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.popular-listeners {
+  font-size: 0.85rem;
+  color: #64748b;
+  white-space: nowrap;
+}

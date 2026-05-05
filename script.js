@@ -1,6 +1,56 @@
-const APIBASE = "https://music-review-platform.onrender.com";
+const APIBASE = "";
 
-//load the artists so that they can be used
+// ---- Auth helpers ----
+
+const getToken = () => localStorage.getItem("authToken");
+const isLoggedIn = () => !!getToken();
+
+const authHeaders = () => ({
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${getToken()}`,
+});
+
+const updateAuthNav = () => {
+  const loginBtn    = document.getElementById("login-btn");
+  const logoutBtn   = document.getElementById("logout-btn");
+  const addAlbumBtn = document.getElementById("add-album-btn");
+
+  if (loginBtn)    loginBtn.style.display    = isLoggedIn() ? "none"  : "";
+  if (logoutBtn)   logoutBtn.style.display   = isLoggedIn() ? ""      : "none";
+  if (addAlbumBtn) addAlbumBtn.style.display = isLoggedIn() ? ""      : "none";
+};
+
+document.addEventListener("DOMContentLoaded", updateAuthNav);
+
+const loginBtn  = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const addAlbumNavBtn = document.getElementById("add-album-btn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+}
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    const token = getToken();
+    localStorage.removeItem("authToken");
+    updateAuthNav();
+    fetch(`${APIBASE}/logout`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
+    }).catch(console.error);
+  });
+}
+
+if (addAlbumNavBtn) {
+  addAlbumNavBtn.addEventListener("click", () => {
+    window.location.href = "addAlbum.html";
+  });
+}
+
+// ---- load the artists so that they can be used ----
 
 let artistCache = {};
 
@@ -236,8 +286,6 @@ if (artistImageEl && artistNameEl && artistGenreEl && artistBioEl) {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
 
-  //const artist = getArtistById(id);
-
   fetch(`${APIBASE}/artists/${id}`)
     .then(res => {
 
@@ -340,8 +388,7 @@ if(saveReviewBtn && userRatingEl && userReviewEl){
 
       if(!res.ok) {
 
-        return res.json().then((data) => {
-
+        return res.json().then(() => {
           throw new Error("Failed to save review.");
         });
 
@@ -408,7 +455,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
       const artistRating = artistRatingEl.value;
       const artistReview = artistReviewEl.value;
 
-      if(artistRatingEl.value < 1 || artistRatingEl.value > 100){
+      if(!artistRatingEl.value || artistRatingEl.value < 1 || artistRatingEl.value > 100){
 
         saveArtistReviewMsg.textContent = "Invalid Rating (Must Be Between 1-100)";
 
@@ -426,8 +473,7 @@ if(artistRatingEl && artistReviewEl && saveArtistReviewBtn){
 
         if(!res.ok){
 
-          return res.json().then((data) => {
-
+          return res.json().then(() => {
           throw new Error("Failed to save review.");
         });
 
@@ -938,4 +984,121 @@ if (submitBtnEl && discussionTitleEl && discussionSubjectEl && discussionBodyEl)
 
 if (window.location.pathname.endsWith("discussion.html")) {
   displayDiscussions();
+}
+
+// ---- Popular page ----
+
+const formatListeners = (n) => {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  if (n >= 1_000)     return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+  return n.toLocaleString();
+};
+
+const displayPopular = () => {
+  const listEl = document.getElementById("popular-list");
+  if (!listEl) return;
+
+  listEl.innerHTML = "<p>Loading...</p>";
+
+  loadArtists()
+    .then(() => fetch(`${APIBASE}/popular`))
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to load");
+      return res.json();
+    })
+    .then((albums) => {
+      listEl.innerHTML = "";
+
+      albums.forEach((album, index) => {
+        const artist = getArtistById(album.artistId);
+        const row = document.createElement("div");
+        row.className = "popular-row";
+
+        row.innerHTML = `
+          <span class="popular-rank">#${index + 1}</span>
+          <a class="album-link" href="album.html?id=${album.id}">
+            <img src="${album.albumCover}" alt="${album.title} album cover" class="popular-cover">
+          </a>
+          <div class="popular-info">
+            <a class="album-link" href="album.html?id=${album.id}"><strong>${album.title}</strong></a>
+            <span class="artist-name">
+              ${artist
+                ? `<a class="artist-link" href="artist.html?id=${artist.id}">${artist.name}</a>`
+                : "Unknown Artist"}
+            </span>
+          </div>
+          <span class="popular-listeners">${formatListeners(album.weeklyListeners)} weekly listeners</span>
+        `;
+
+        listEl.appendChild(row);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      listEl.innerHTML = "<p>Could not load popular albums.</p>";
+    });
+};
+
+if (window.location.pathname.endsWith("popular.html")) {
+  displayPopular();
+}
+
+// ---- Add Album page ----
+
+if (window.location.pathname.endsWith("addAlbum.html")) {
+  if (!isLoggedIn()) {
+    window.location.href = "login.html";
+  }
+
+  const addAlbumForm   = document.getElementById("add-album-form");
+  const artistSelect   = document.getElementById("new-artist");
+  const addAlbumMsg    = document.getElementById("add-album-msg");
+
+  fetch(`${APIBASE}/artists`)
+    .then((res) => res.json())
+    .then((artists) => {
+      artistSelect.innerHTML = "";
+      artists.forEach((a) => {
+        const opt = document.createElement("option");
+        opt.value = a.id;
+        opt.textContent = a.name;
+        artistSelect.appendChild(opt);
+      });
+    })
+    .catch(() => {
+      artistSelect.innerHTML = "<option>Could not load artists</option>";
+    });
+
+  addAlbumForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const title       = document.getElementById("new-title").value.trim();
+    const artistId    = Number(artistSelect.value);
+    const genre       = document.getElementById("new-genre").value.trim();
+    const releaseDate = document.getElementById("new-release").value;
+    const albumCover  = document.getElementById("new-cover").value.trim();
+    const description = document.getElementById("new-description").value.trim();
+
+    if (!title || !artistId) {
+      addAlbumMsg.textContent = "Title and Artist are required.";
+      return;
+    }
+
+    fetch(`${APIBASE}/albums`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ title, artistId, genre, releaseDate: releaseDate ? Number(releaseDate) : null, albumCover, description }),
+    })
+      .then((res) => {
+        if (!res.ok) return res.json().then((d) => { throw new Error(d.error || "Failed"); });
+        return res.json();
+      })
+      .then(() => {
+        addAlbumMsg.textContent = "Album added successfully!";
+        addAlbumForm.reset();
+      })
+      .catch((err) => {
+        addAlbumMsg.textContent = err.message || "Could not add album.";
+      });
+  });
 }
